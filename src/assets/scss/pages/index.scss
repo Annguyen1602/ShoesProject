@@ -1,0 +1,65 @@
+// @import '../../assets/scss/themes/variable';
+
+.carousel {
+    background-image: url('../../img/image\ 6.png');
+    background-position: bottom;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 600px;
+    
+  
+    .container {
+      .slide {
+        .carousel-indicators {
+          bottom: 108px !important;
+          button {
+            width: 15px;
+            height: 15px;
+            border: 1px solid rgba(0, 0, 0, 0.13);
+            border-radius: 50%;
+          }
+        }
+        .carousel-inner {
+          .carousel-item {
+            .image-shoes {
+              img {
+              }
+            }
+            .content-right {
+              h1 {
+              }
+              p {
+              }
+              a {
+                width: 175px;
+                height: 69px;
+                background-color: $c2-bg-yellow;
+                text-decoration: none;
+                color: $c1-black;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: $text-thin;
+                font-size: $text-big;
+                line-height: 29px;
+              }
+            }
+          }
+        }
+        .carousel-control-prev {
+          span {
+            margin-left: -270px;
+            img {
+            }
+          }
+        }
+        .carousel-control-next {
+          span {
+            margin-right: -270px;
+            img {
+            }
+          }
+        }
+      }
+    }
+  }
