@@ -1,6 +1,42 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Index() {
+  const { arrProduct } = useSelector((state) => state.productReducer);
+
+  const dispatch = useDispatch();
+
+  const getAllProductApi = () => {
+    const actionThunk = getProductApi();
+    dispatch(actionThunk);
+  };
+
+  useEffect(() => {
+    getAllProductApi();
+  }, []);
+
+  const renderProduct = () => {
+    return arrProduct.map((prod, index) => {
+      return (
+        <div className="item col-12 col-md-6 col-xl-4 " key={index}>
+          <div className="cover">
+            <div className="pro-image">
+              <img src={prod.image} className="w-100" alt="photo.png" />
+            </div>
+            <d className="pro-txt">
+              <h2>{prod.name}</h2>
+              <span>{prod.description}</span>
+            </d>
+            <div className="buy-click d-flex">
+              <a href="./detail.html?productid=${newProduct.id}">Buy now</a>
+              <p>{prod.price}</p>
+            </div>
+          </div>
+        </div>
+      );
+    });
+  };
+
   return (
     <section className="carousel">
       <div className="container">
@@ -68,6 +104,7 @@ export default function Index() {
             </span>
           </button>
         </div>
+        {renderProduct()}
       </div>
     </section>
   );
