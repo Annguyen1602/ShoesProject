@@ -3,6 +3,7 @@ import { http } from "../../utils/tool";
 
 const initialState = {
   arrProduct: [],
+  productDetail:{}
 };
 
 const productReducer = createSlice({
@@ -14,10 +15,15 @@ const productReducer = createSlice({
       const arrProduct = action.payload;
       state.arrProduct = arrProduct;
     },
+    getProductActionDetail:(state,action)=>{
+        const productDetail = action.payload;
+        state.productDetail = productDetail;
+
+    }
   },
 });
 
-export const { getProductAction } = productReducer.actions;
+export const { getProductAction ,getProductActionDetail} = productReducer.actions;
 
 export default productReducer.reducer;
 
@@ -35,3 +41,16 @@ export const getProductApi = () => {
     }
   };
 };
+
+export const getProductDetailApi =(id)=>{
+    return async (dispatch)=>{
+        try {
+            let result = await http.get(`/Product/getbyid?id=${id}`)
+            const action = getProductActionDetail(result.data.content);
+            dispatch(action)
+
+        } catch (error) {
+            
+        }
+    }
+}

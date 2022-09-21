@@ -2,6 +2,7 @@ import Carousel from "react-bootstrap/Carousel";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductApi } from "../../redux/reducers/productReducer";
+import { NavLink } from "react-router-dom";
 
 export default function Index() {
   const { arrProduct } = useSelector((state) => state.productReducer);
@@ -30,7 +31,7 @@ export default function Index() {
               <span>{prod.description}</span>
             </d>
             <div className="buy-click d-flex">
-              <a href="./detail.html?productid=${newProduct.id}">Buy now</a>
+              <NavLink to={`/detail/${prod.id}`} >Buy now</NavLink>
               <p>{prod.price}</p>
             </div>
           </div>
@@ -52,7 +53,7 @@ export default function Index() {
             <div className="content-right col-4">
               <h1>{prod.name}</h1>
               <p>{prod.description}</p>
-              <a href="#">Buy now</a>
+              <NavLink to={`/detail/${prod.id}`} >Buy now</NavLink>
             </div>
           </div>
         </Carousel.Item>
