@@ -46,19 +46,19 @@
             }
           }
         }
-        .carousel-control-prev {
-          span {
-            margin-left: -270px;
-            img {
-            }
-          }
+        .carousel-control-prev-icon {
+          background-image: url("../../img/Polygon\ 2.png");
+          margin-left: -270px;
+          width: 66px;
+          height: 75px;
+          
         }
-        .carousel-control-next {
-          span {
-            margin-right: -270px;
-            img {
-            }
-          }
+        .carousel-control-next-icon {
+          background-image: url("../../img/Polygon\ 1.png");
+          margin-right: -270px ;
+          width: 66px;
+          height: 75px;
+          
         }
       }
     }

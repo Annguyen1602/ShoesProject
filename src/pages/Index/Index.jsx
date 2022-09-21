@@ -1,3 +1,4 @@
+import Carousel from "react-bootstrap/Carousel";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductApi } from "../../redux/reducers/productReducer";
@@ -40,98 +41,31 @@ export default function Index() {
   const renderProductCarousel = () => {
     return arrProduct.map((prod, index) => {
       return (
-        <div
-          className="carousel-item d-lg-flex justify-content-between align-items-center"
-          key={index}
-        >
-          <div className="image-shoes col-7">
-            <img src={prod.image} className="d-block" alt={prod.image} />
+        <Carousel.Item>
+          <div
+            className="carousel-item active d-lg-flex justify-content-between align-items-center"
+            key={index}
+          >
+            <div className="image-shoes col-7">
+              <img src={prod.image} className="d-block" alt={prod.image} />
+            </div>
+            <div className="content-right col-4">
+              <h1>{prod.name}</h1>
+              <p>{prod.description}</p>
+              <a href="#">Buy now</a>
+            </div>
           </div>
-          <div className="content-right col-4">
-            <h1>{prod.name}</h1>
-            <p>{prod.description}</p>
-            <a href="#">Buy now</a>
-          </div>
-        </div>
+        </Carousel.Item>
       );
     });
   };
 
-  const renderButton =()=>{
-    return arrProduct.map((prod,index)=>{
-      return <button
-      type="button"
-      data-bs-target="#carouselExampleIndicators"
-      data-bs-slide-to={index}
-      aria-label={`Slide ${index+1}`}
-    />
-    })
-    
-      
-    
-    
-  
-  }
   return (
     <>
       <section className="carousel">
         <div className="container">
-          <div
-            id="carouselExampleControls"
-            className="carousel slide"
-            data-bs-ride="true"
-          >
-            <div className="carousel-indicators">
-            <button
-                type="button"
-                data-bs-target="#carouselExampleIndicators"
-                data-bs-slide-to="0"
-                className="active"
-                aria-current="true" 
-                aria-label="Slide 1"
-              />
-              {renderButton()}
-            </div>
-            <div className="carousel-inner">
-              
-              <div className="carousel-item active d-lg-flex justify-content-between align-items-center">
-                <div className="image-shoes col-7">
-                  <img
-                    src="./img/image 4.png"
-                    className="d-block"
-                    alt="photo.png"
-                  />
-                </div>
-                <div className="content-right col-4">
-                  <h1>Product name</h1>
-                  <p>Product description ....</p>
-                  <a href="#">Buy now</a>
-                </div>
-              </div>
-              
-              {/* {renderProductCarousel()} */}
-            </div>
-            <button
-              className="carousel-control-prev"
-              type="button"
-              data-bs-target="#carouselExampleControls"
-              data-bs-slide="prev"
-            >
-              <span>
-                <img src="./img/Polygon 2.png" alt="photo.png" />
-              </span>
-            </button>
-            <button
-              className="carousel-control-next"
-              type="button"
-              data-bs-target="#carouselExampleControls"
-              data-bs-slide="next"
-            >
-              <span>
-                <img src="./img/Polygon 1.png" alt="photo.png" />
-              </span>
-            </button>
-          </div>
+          <Carousel>
+            {renderProductCarousel()}</Carousel>
         </div>
       </section>
       <section className="product-feature">
@@ -143,3 +77,9 @@ export default function Index() {
     </>
   );
 }
+
+/**
+ 
+
+
+ */
