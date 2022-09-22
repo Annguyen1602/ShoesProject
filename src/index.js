@@ -9,6 +9,7 @@ import "./assets/scss/styles.scss";
 import { Provider } from "react-redux";
 import { store } from "./redux/configStore";
 import Detail from "./pages/Detail/Detail";
+import Register from "./pages/Register/Register";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -20,6 +21,7 @@ root.render(
           <Route path="detail">
             <Route path=":id" element={<Detail/>}></Route>
           </Route>
+          <Route path="register" element={<Register/>}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

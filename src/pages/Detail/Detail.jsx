@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { getProductDetailApi } from "../../redux/reducers/productReducer";
 
 export default function Detail() {
@@ -19,6 +19,7 @@ export default function Detail() {
   }, [params.id]);
 
   return (
+    <>
     <section className="product-detail">
       <div className="container">
         <div className="more-detail d-lg-flex">
@@ -47,7 +48,12 @@ export default function Detail() {
             <button>Add to cart</button>
           </div>
         </div>
-        <div class="container">
+        
+        
+      </div>
+    </section>
+    <section className="product-feature">
+    <div class="container">
         <div class="row" >
         {productDetail.relatedProducts?.map((item,index)=>{
           return <div className="item col-12 col-md-6 col-xl-4 " key={index}>
@@ -68,7 +74,7 @@ export default function Detail() {
         })}
         </div>
       </div>
-      </div>
     </section>
+    </>
   );
 }
