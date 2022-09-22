@@ -7,9 +7,11 @@ export default function Detail() {
   const { productDetail } = useSelector((state) => state.productReducer);
   const dispatch = useDispatch();
   const params = useParams();
-  console.log(productDetail);
+
+  
 
   useEffect(() => {
+    
     // call api
     let { id } = params;
     const action = getProductDetailApi(id);
@@ -28,17 +30,15 @@ export default function Detail() {
             />
           </div>
           <div className="part-info col-xl-5">
-            <h2>
-              {productDetail.name}
-            </h2>
-            <p>
-              {productDetail.description}
-            </p>
+            <h2>{productDetail.name}</h2>
+            <p>{productDetail.description}</p>
             <h3>Available size</h3>
-            <div className="size" id="size-product"></div>
-            <span id="price">
-              {productDetail.price}
-            </span>
+            <div className="size">
+              {productDetail.size?.map((size, index) => {
+                return <span key={index}>{size}</span>;
+              })}
+            </div>
+            <span id="price">{productDetail.price} $</span>
             <div className="number-of-product">
               <button id="plus">+</button>
               <span>1</span>
@@ -47,6 +47,27 @@ export default function Detail() {
             <button>Add to cart</button>
           </div>
         </div>
+        <div class="container">
+        <div class="row" >
+        {productDetail.relatedProducts?.map((item,index)=>{
+          return <div className="item col-12 col-md-6 col-xl-4 " key={index}>
+          <div className="cover">
+            <div className="pro-image">
+              <img src={item.image} className="w-100" alt="photo.png" />
+            </div>
+            <d className="pro-txt">
+              <h2>{item.name}</h2>
+              <span>{item.description}</span>
+            </d>
+            <div className="buy-click d-flex">
+              <NavLink to={`/detail/${item.id}`} >Buy now</NavLink>
+              <p>{item.price}</p>
+            </div>
+          </div>
+        </div>
+        })}
+        </div>
+      </div>
       </div>
     </section>
   );
