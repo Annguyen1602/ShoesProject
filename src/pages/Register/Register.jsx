@@ -1,38 +1,45 @@
 import { useFormik } from "formik";
 import React from "react";
 import { useDispatch } from "react-redux";
-import eye from "../../assets/img/Color.png"
-import * as Yup from "yup"
-
-
+import eye from "../../assets/img/Color.png";
+import * as Yup from "yup";
 
 export default function Register() {
-    const dispatch = useDispatch()
-    const frm = useFormik({
-        initialValues:{
-            email:'',
-        name:'',
-        phone:'',
-        password:'',
-        gender:true
-        },
-        validationSchema: Yup.object().shape({})
-    })
-    
-    
+  const dispatch = useDispatch();
+  const frm = useFormik({
+    initialValues: {
+      email: "",
+      name: "",
+      phone: "",
+      password: "",
+      repassword:'',
+      gender: true,
+    },
+    validationSchema: Yup.object().shape({
+      email: Yup.string()
+        .required("Email không được bỏ trống")
+        .email("Email không đúng định dạng"),
+      name:Yup.string().required("Tên không được để trống"),
+      phone:Yup.string().required("Số điện thoại không được bỏ trống"),
+      password: Yup.string().required("Mật khẩu không được để trống"),
+      repassword:Yup.string().when("password", {
+        is: val => (val && val.length >0 ? true : false),
+        then: Yup.string().oneOf(
+          [Yup.ref("password")],
+          "Xác nhận không khớp với mật khẩu đã nhập"
+        )
+      })
 
 
-
-
-
-
-
+    }),
+  });
+  
 
   return (
     <section className="register">
       <div className="container">
         <h1>Register</h1>
-        <hr/>
+        <hr />
         <form
           role="form"
           id="formRegister"
@@ -40,22 +47,27 @@ export default function Register() {
         >
           <div className="form-group col-md-10 h-100 mb-4">
             <div className="input-group d-flex flex-column">
-                <h2>Email</h2>
+              <h2>Email</h2>
               <input
                 type="email"
-                name="tk"
+                name="email"
                 id="emailClient"
                 className="form-control input-sm w-100"
                 placeholder="Email"
-                required
-                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                onChange={frm.handleChange}
+                onBlur={frm.handleBlur}
               />
+              {frm.errors.email ? (
+                <span className="text-danger">{frm.errors.email} </span>
+              ) : (
+                ""
+              )}
             </div>
-            <span className="sp-inform" id="infEmail" />
+            
           </div>
           <div className="form-group col-md-10 h-100 mb-4">
             <div className="input-group d-flex flex-column">
-            <h2>Name</h2>
+              <h2>Name</h2>
               <input
                 type="text"
                 name="name"
@@ -64,13 +76,20 @@ export default function Register() {
                 placeholder="Name"
                 required
                 pattern="[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$"
+                onChange={frm.handleChange}
+                onBlur={frm.handleBlur}
               />
+              {frm.errors.name ? (
+                <span className="text-danger">{frm.errors.name} </span>
+              ) : (
+                ""
+              )}
             </div>
-            <span className="sp-inform" id="infName" />
+            
           </div>
           <div className="form-group col-md-10 h-100 mb-4">
-          <div className="input-group d-flex flex-column">
-          <h2>Password</h2>
+            <div className="input-group d-flex flex-column">
+              <h2>Password</h2>
               <input
                 type="password"
                 name="pw"
@@ -79,14 +98,23 @@ export default function Register() {
                 placeholder="Password"
                 required
                 pattern="^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,10}$"
+                onChange={frm.handleChange}
+                onBlur={frm.handleBlur}
               />
-              <button><img src={eye} alt="icon" /></button>
+              {frm.errors.password ? (
+                <span className="text-danger">{frm.errors.password} </span>
+              ) : (
+                ""
+              )}
+              <button>
+                <img src={eye} alt="icon" />
+              </button>
             </div>
             <span className="sp-inform" id="infPass" />
           </div>
           <div className="form-group col-md-10 h-100 mb-4">
-          <div className="input-group d-flex flex-column">
-            <h2>Phone</h2>
+            <div className="input-group d-flex flex-column">
+              <h2>Phone</h2>
               <input
                 type="tel"
                 name="tel"
@@ -101,7 +129,7 @@ export default function Register() {
           </div>
           <div className="form-group col-md-10 h-100 mb-4">
             <div className="input-group d-flex flex-column">
-            <h2>Password confirm</h2>
+              <h2>Password confirm</h2>
               <input
                 type="password"
                 name="pw"
@@ -110,7 +138,9 @@ export default function Register() {
                 placeholder="Password Confirm"
                 required
               />
-              <button><img src={eye} alt="icon" /></button>
+              <button>
+                <img src={eye} alt="icon" />
+              </button>
             </div>
             <span className="sp-inform" id="infPassConfirm" />
           </div>
