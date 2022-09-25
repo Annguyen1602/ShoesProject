@@ -1,6 +1,7 @@
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { NavLink } from "react-router-dom";
 import * as Yup from "yup";
 import { loginApi } from "../../redux/reducers/userLoginReducer";
 export default function Login() {
@@ -29,7 +30,7 @@ export default function Login() {
         )
     }),
     onSubmit: (values) => {
-      
+        
         console.log(values);
         // const action = loginApi(values);
         dispatch(loginApi(values))
@@ -93,9 +94,13 @@ export default function Login() {
               <i className="bi bi-eye"></i>
             )}
           </button>
+         <div className="text-center mt-2 register">
+         <NavLink to="/register"> Regiter Now?</NavLink>
+         </div>
         </div>
         <div className="form-group submit">
-            <button type="submit">Submit</button>
+            
+            <button type="submit">Login</button>
           </div>
       </form>
     </div>
