@@ -21,7 +21,7 @@ export default function Header() {
                 <p className="text-white">(1)</p>
               </a>
             </div>
-            <NavLink to="#" className="text-white text-decoration-none">Login</NavLink>
+            <NavLink to="/login" className="text-white text-decoration-none">Login</NavLink>
             <NavLink to="/register" className="text-white text-decoration-none">Register</NavLink>
           </div>
         </div>

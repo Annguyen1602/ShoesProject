@@ -1,6 +1,4 @@
-.register {
-  padding: 30px 120px;
-  .container {
+.container {
     h1 {
       text-align: left;
     }
@@ -55,56 +53,7 @@
           z-index: 10;
           color: $c6-red;
         }
-        #gender {
-          width: 482px;
-          height: 68px;
-          p {
-            font-weight: $text-regular;
-            font-size: $text-big;
-            line-height: 36px;
-          }
-          border: none;
-          display: flex;
-          justify-content: space-between;
-          padding-top: 18px;
-          align-items: baseline;
-          input[type="radio"] {
-            position: absolute;
-
-            opacity: 0;
-            + .radio-label {
-              font-weight: $text-regular;
-              font-size: $text-medium;
-              line-height: 36px;
-              &:before {
-                content: "";
-                background: $color1;
-                border-radius: 100%;
-                border: 1px solid darken($color1, 25%);
-                display: inline-block;
-                width: 35px;
-                height: 35px;
-                position: relative;
-                top: 1px;
-                margin-right: 10px;
-                vertical-align: top;
-                cursor: pointer;
-                text-align: center;
-                transition: all 250ms ease;
-              }
-            }
-            &:checked {
-              + .radio-label {
-                &:before {
-                  background-color: $color2;
-                  box-shadow: inset 0px 0px 0 7px $color1;
-                }
-              }
-            }
-          }
-        }
-        span {
-        }
+        
       }
       .submit {
         width: 100%;
@@ -134,4 +83,3 @@
       }
     }
   }
-}
