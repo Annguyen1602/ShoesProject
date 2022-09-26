@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import eye from "../../assets/img/Color.png";
 import * as Yup from "yup";
 import { http } from "../../utils/tool";
@@ -9,6 +9,8 @@ import axios from "axios";
 import { history } from "../..";
 
 export default function Profile() {
+  const { userLogin } = useSelector((state) => state.userLoginReducer);
+
   const dispatch = useDispatch();
   const [passwordType, setPassWordType] = useState("password");
   const [passwordReType, setPassWordReType] = useState("password");
@@ -86,8 +88,8 @@ export default function Profile() {
 
   return (
     <div className="update">
-      <h2>Profile</h2>
-      <div className="container d-flex">
+      <h2 className="title">Profile</h2>
+      <div className="container d-flex h-100">
         <div className="image col-2">
           <img
             src="https://i.pravatar.cc?u=annguyen1996@gmail.com"
@@ -96,7 +98,7 @@ export default function Profile() {
           />
         </div>
         <form
-          className="form d-flex flex-wrap justify-content-start col-12"
+          className="form d-flex flex-wrap justify-content-start col-10 "
           onSubmit={frm.handleSubmit}
         >
           <div className="form-group col-md-10 mb-4 me-5">
@@ -118,7 +120,7 @@ export default function Profile() {
               )}
             </div>
           </div>
-          <div className="form-group col-md-10 mb-4">
+          <div className="form-group col-md-10 mb-4 me-5">
             <div className="input-group d-flex flex-column">
               <h2>Name</h2>
               <input
@@ -150,7 +152,7 @@ export default function Profile() {
               <span className="text-danger">{frm.errors.phone} </span>
             </div>
           </div>
-          <div className="form-group col-md-10 mb-4">
+          <div className="form-group col-md-10 mb-4 me-5">
             <div className="input-group d-flex flex-column">
               <h2>Password</h2>
               <input
@@ -175,7 +177,7 @@ export default function Profile() {
             </button>
           </div>
 
-          <div className="form-group col-md-10 mt-4">
+          <div className="form-group col-md-10">
             <div className="input-group" id="gender">
               <p>Gender</p>
               <input
@@ -185,7 +187,9 @@ export default function Profile() {
                 value={true}
                 onChange={(e) => handleRadioButtons(e)}
               />
-              <label htmlFor="Male" className="radio-label"></label>
+              <label htmlFor="Male" className="radio-label">
+                <span className="text-dark d-block ps-2">Male</span>
+              </label>
               <input
                 type="radio"
                 id="Female"
@@ -194,14 +198,128 @@ export default function Profile() {
                 onChange={(e) => handleRadioButtons(e)}
               />
               <label htmlFor="Female" className="radio-label">
-                Female
+                <span className="text-dark d-block">Female</span>
               </label>
+
+              <button className="updateButton rounded-pill" type="submit">
+                Update
+              </button>
             </div>
           </div>
-          <div className="form-group submit">
-            <button type="submit">Submit</button>
-          </div>
         </form>
+      </div>
+      <div className="d-flex align-items-start flex-wrap">
+        <div
+          className="nav flex-row nav-pills me-3 col-10"
+          id="v-pills-tab"
+          role="tablist"
+          aria-orientation="vertical"
+        >
+          <button
+            className="nav-link active"
+            id="v-pills-history-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#v-pills-history"
+            type="button"
+            role="tab"
+            aria-controls="v-pills-history"
+            aria-selected="true"
+          >
+           Order History
+          </button>
+          <button
+            className="nav-link"
+            id="v-pills-favorite-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#v-pills-favorite"
+            type="button"
+            role="tab"
+            aria-controls="v-pills-favorite"
+            aria-selected="false"
+          >
+            Favorite
+          </button>
+        </div>
+        <div className="tab-content col-10" id="v-pills-tabContent">
+          <div
+            className="tab-pane fade show active"
+            id="v-pills-history"
+            role="tabpanel"
+            aria-labelledby="v-pills-history-tab"
+          >
+            <div className="mt-2">
+              <hr/>
+            <table className="table">
+              <thead className="bg-light">
+                <tr>
+                <th>ID</th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>1</td>
+                </tr>
+              </tbody>
+
+            </table>
+            </div>
+          </div>
+
+          <div
+            className="tab-pane fade"
+            id="v-pills-favorite"
+            role="tabpanel"
+            aria-labelledby="v-pills-favorite-tab"
+          >
+            <div className="mt-2">
+              <hr />
+              <h3>Order Favorite</h3>
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>name</th>
+                    <th>quantity</th>
+                    <th>img</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>name</td>
+                    <td>1</td>
+                    <td>
+                      <img
+                        src="{item.image}"
+                        width={50}
+                        height={50}
+                        style={{ objectFit: "cover" }}
+                        alt="..."
+                      />
+                    </td>
+                  </tr>
+                  {/* {orderItem.orderDetail?.map((item, index) => {
+                            return <tr key={index}>
+                                <td>{item.name}</td>
+                                <td>1</td>
+                                <td>
+                                    <img src={item.image} width={50} height={50} style={{ objectFit: 'cover' }} alt='...' />
+                                </td>
+                            </tr>
+                        })} */}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -1,9 +1,15 @@
 .update {
-  h2 {
+  .title {
+    width: 575px;
+    height: 74px;
+    padding: 13px 0 13px 34px;
+    background: linear-gradient(180deg, #f21299 0%, #1b02b5 100%);
+    color:$c7-white ;
   }
   .container {
     .image {
-        margin-right: 40px;
+      margin-right: 40px;
+      margin-top: 31px;
       img {
         border-radius: 50%;
       }
@@ -53,26 +59,30 @@
           color: $c6-red;
         }
         #gender {
-          width: 482px;
+          width: 253px;
           height: 68px;
+          transform: translateX(177%);
           p {
-            font-weight: $text-regular;
-            font-size: $text-big;
+            font-weight: $text-semiBold;
+            font-size: $text-small;
             line-height: 36px;
+            padding-top: 15px;
+            margin-right: 8px;
           }
           border: none;
           display: flex;
           justify-content: space-between;
-          padding-top: 18px;
-          align-items: baseline;
+
+          align-items: center;
           input[type="radio"] {
             position: absolute;
 
             opacity: 0;
             + .radio-label {
               font-weight: $text-regular;
-              font-size: $text-medium;
+              font-size: $text-x-small;
               line-height: 36px;
+
               &:before {
                 content: "";
                 background: $color1;
@@ -83,7 +93,7 @@
                 height: 35px;
                 position: relative;
                 top: 1px;
-                margin-right: 10px;
+                margin: 0 20%;
                 vertical-align: top;
                 cursor: pointer;
                 text-align: center;
@@ -102,33 +112,31 @@
         }
         span {
         }
-      }
-      .submit {
-        width: 100%;
-        text-align: end;
-        @media screen and (max-width: 1200px) {
-          text-align: start;
-        }
-
-        button {
-          width: 121px;
-          height: 48px;
-          transform: translateX(-290%);
+        .updateButton {
+          width: 100px;
+          height: 40px;
+          padding: 10px;
+          transform: translate(165px, -20px);
           background-color: $color2;
           box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.14),
             0px 1px 10px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.2);
-          border-radius: 50px;
           color: $c7-white;
           border: none;
           font-weight: $text-regular;
-          font-size: $text-big;
-          line-height: 36px;
-          margin-top: 50px;
+          font-size: $text-medium;
+          line-height: 24px;
           @media screen and (max-width: 1200px) {
             transform: translateX(0%);
           }
         }
       }
+      // .submit {
+      //   width: 100%;
+      //   text-align: end;
+      //   @media screen and (max-width: 1200px) {
+      //     text-align: start;
+      //   }
+      // }
     }
   }
 }
