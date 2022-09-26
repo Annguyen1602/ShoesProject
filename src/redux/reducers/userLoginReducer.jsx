@@ -34,6 +34,7 @@ export const loginApi = (userLogin) => {
   return async (dispatch) => {
     try {
       const result = await http.post('/Users/signin', userLogin);
+      console.log(userLogin);
       // đăng nhập thành công lưu dữ liệu vào store , cookies
       console.log(result);
       setCookie(ACCESS_TOKEN, result.data.content.accessToken, 30);
