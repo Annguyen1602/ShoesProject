@@ -42,6 +42,7 @@ export const config = {
     },
     ACCESS_TOKEN: "accessToken",
     USER_LOGIN: "userLogin",
+    USER_FAVORITE:"userFavorite"
   };
   export const {
     setCookie,
@@ -52,6 +53,7 @@ export const config = {
     getStoreJson,
     ACCESS_TOKEN,
     USER_LOGIN,
+    USER_FAVORITE
   } = config;
   
 

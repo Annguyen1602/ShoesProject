@@ -8,11 +8,13 @@ import {
   setCookie,
   setStore,
   setStoreJson,
+  USER_FAVORITE,
   USER_LOGIN,
 } from "../../utils/tool";
 
 const initialState = {
   userLogin: getStoreJson(USER_LOGIN) || {},
+  userFavorite: getStoreJson(USER_FAVORITE) || {}
 };
 
 const userRegisterReducer = createSlice({
@@ -22,10 +24,14 @@ const userRegisterReducer = createSlice({
     getProfileAction: (state, action) => {
       state.userLogin = action.payload;
     },
+    getFavoriteAction: (state,action)=>{
+      state.userFavorite = action.payload
+      
+    }
   },
 });
 
-export const { getProfileAction } = userRegisterReducer.actions;
+export const { getProfileAction,getFavoriteAction } = userRegisterReducer.actions;
 
 export default userRegisterReducer.reducer;
 
@@ -61,3 +67,15 @@ export const getProfileApi = (accessToken = getStore(ACCESS_TOKEN)) => {
     }
   };
 };
+ export const getFavoriteApi = (accessToken = getStore(ACCESS_TOKEN))=>{
+  return async (dispatch) =>{
+    try {
+      const result = await http.get('/Users/getproductfavorite');
+      const action = getFavoriteAction(result.data.content.productsFavorite)
+      dispatch(action)
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
+ }

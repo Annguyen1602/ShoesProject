@@ -1,15 +1,17 @@
 import { useFormik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import eye from "../../assets/img/Color.png";
 import * as Yup from "yup";
-import { http } from "../../utils/tool";
+import { ACCESS_TOKEN, getStore, http } from "../../utils/tool";
 import { Account } from "../../Model/Model";
 import axios from "axios";
 import { history } from "../..";
+import { getFavoriteAction, getFavoriteApi, getProfileApi } from "../../redux/reducers/userLoginReducer";
+import { Navigate } from "react-router-dom";
 
 export default function Profile() {
-  const { userLogin } = useSelector((state) => state.userLoginReducer);
+  const { userLogin ,userFavorite } = useSelector((state) => state.userLoginReducer);
 
   const dispatch = useDispatch();
   const [passwordType, setPassWordType] = useState("password");
@@ -19,6 +21,14 @@ export default function Profile() {
   const handlePasswordChange = (e) => {
     setPasswordInput(e.target.value);
   };
+
+
+useEffect(()=>{
+  dispatch(getProfileApi())
+  dispatch(getFavoriteApi())
+},[])
+
+
 
   const togglePassword = () => {
     if (passwordType === "password") {
@@ -85,7 +95,11 @@ export default function Profile() {
     },
   });
   const handleRadioButtons = (e) => (frm.values.gender = e.target.value);
-
+  if (!getStore(ACCESS_TOKEN)) {
+    //Nếu chưa đăng nhập => Chuyển hướng trang
+    alert('Đăng nhập để vào trang này !');
+    return <Navigate to='/login' />
+}
   return (
     <div className="update">
       <h2 className="title">Profile</h2>
@@ -208,7 +222,8 @@ export default function Profile() {
           </div>
         </form>
       </div>
-      <div className="d-flex align-items-start flex-wrap">
+      <hr/>
+      <div className="container d-flex align-items-start flex-wrap">
         <div
           className="nav flex-row nav-pills me-3 col-10"
           id="v-pills-tab"
@@ -247,7 +262,8 @@ export default function Profile() {
             role="tabpanel"
             aria-labelledby="v-pills-history-tab"
           >
-            <div className="mt-2">
+            {userLogin?.ordersHistory?.map((orderItem,index)=>{
+              return <div className="mt-2" key={index}>
               <hr/>
             <table className="table">
               <thead className="bg-light">
@@ -262,8 +278,8 @@ export default function Profile() {
               </thead>
               <tbody>
                 <tr>
-                  <td>1</td>
-                  <td>1</td>
+                  <td>{orderItem.id}</td>
+                  <td></td>
                   <td>1</td>
                   <td>1</td>
                   <td>1</td>
@@ -273,6 +289,7 @@ export default function Profile() {
 
             </table>
             </div>
+            })}
           </div>
 
           <div
