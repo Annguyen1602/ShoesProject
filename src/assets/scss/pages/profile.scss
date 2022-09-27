@@ -4,7 +4,7 @@
     height: 74px;
     padding: 13px 0 13px 34px;
     background: linear-gradient(180deg, #f21299 0%, #1b02b5 100%);
-    color:$c7-white ;
+    color: $c7-white;
   }
   .container {
     .image {
@@ -130,13 +130,32 @@
           }
         }
       }
-      // .submit {
-      //   width: 100%;
-      //   text-align: end;
-      //   @media screen and (max-width: 1200px) {
-      //     text-align: start;
-      //   }
-      // }
+    }
+  }
+  .order {
+    .nav {
+      button {
+      }
+    }
+    .tab-content {
+      .tab-pane {
+        .cover {
+          hr {
+          }
+          p {
+            background: linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.2),
+                rgba(0, 0, 0, 0.2)
+              ),
+              linear-gradient(180deg, #cb0dc3 0%, #7d0db1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+          }
+        }
+      }
     }
   }
 }

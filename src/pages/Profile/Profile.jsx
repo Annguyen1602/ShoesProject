@@ -9,6 +9,8 @@ import axios from "axios";
 import { history } from "../..";
 import { getFavoriteAction, getFavoriteApi, getProfileApi } from "../../redux/reducers/userLoginReducer";
 import { Navigate } from "react-router-dom";
+import Pagination from 'react-bootstrap/Pagination';
+
 
 export default function Profile() {
   const { userLogin ,userFavorite } = useSelector((state) => state.userLoginReducer);
@@ -223,7 +225,7 @@ useEffect(()=>{
         </form>
       </div>
       <hr/>
-      <div className="container d-flex align-items-start flex-wrap">
+      <div className="container order d-flex align-items-start flex-wrap">
         <div
           className="nav flex-row nav-pills me-3 col-10"
           id="v-pills-tab"
@@ -263,8 +265,10 @@ useEffect(()=>{
             aria-labelledby="v-pills-history-tab"
           >
             {userLogin?.ordersHistory?.map((orderItem,index)=>{
-              return <div className="mt-2" key={index}>
+              return <div className="cover mt-2" key={index}>
+                
               <hr/>
+              <p>+ Order has been placed on {orderItem.date}</p>
             <table className="table">
               <thead className="bg-light">
                 <tr>
@@ -276,16 +280,18 @@ useEffect(()=>{
                 <th>Total</th>
                 </tr>
               </thead>
-              <tbody>
+              {orderItem?.orderDetail?.map((item,index)=>{
+                return <tbody key={index}>
                 <tr>
                   <td>{orderItem.id}</td>
-                  <td></td>
-                  <td>1</td>
-                  <td>1</td>
-                  <td>1</td>
-                  <td>1</td>
+                  <td><img src={item.image} alt={item.name} height={50} /></td>
+                  <td>{item.name}</td>
+                  <td>{item.price}</td>
+                  <td>{item.quantity}</td>
+                  <td>{item.price*item.quantity}</td>
                 </tr>
               </tbody>
+              })}
 
             </table>
             </div>
@@ -338,6 +344,27 @@ useEffect(()=>{
           </div>
         </div>
       </div>
+      <div style={{ display: 'block', width: 700, padding: 30 }}>
+      <h4>React-Bootstrap Pagination Component</h4>
+      <Pagination>
+      <Pagination.First />
+      <Pagination.Prev />
+      <Pagination.Item>{1}</Pagination.Item>
+      <Pagination.Ellipsis />
+
+      <Pagination.Item>{10}</Pagination.Item>
+      <Pagination.Item>{11}</Pagination.Item>
+      <Pagination.Item active>{12}</Pagination.Item>
+      <Pagination.Item>{13}</Pagination.Item>
+      <Pagination.Item disabled>{14}</Pagination.Item>
+
+      <Pagination.Ellipsis />
+      <Pagination.Item>{20}</Pagination.Item>
+      <Pagination.Next />
+      <Pagination.Last />
+    </Pagination>
+    </div>
+  );
     </div>
   );
 }

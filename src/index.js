@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
+
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -14,6 +14,8 @@ import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
 import Login from "./pages/Login/Login";
 import { createBrowserHistory } from "history";
 import Profile from "./pages/Profile/Profile";
+import 'bootstrap/dist/css/bootstrap.css';
+import "./index.css";
 
 
 export const history = createBrowserHistory({ window });
