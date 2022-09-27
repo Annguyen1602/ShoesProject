@@ -19,7 +19,6 @@ export default function Profile() {
   const { userLogin, userFavorite } = useSelector(
     (state) => state.userLoginReducer
   );
-  console.log(userLogin.avatar);
 
   const dispatch = useDispatch();
   const [passwordType, setPassWordType] = useState("password");
@@ -66,10 +65,6 @@ export default function Profile() {
     },
 
     validationSchema: Yup.object().shape({
-      email: Yup.string()
-
-        .required("Email không được bỏ trống")
-        .email("Email không đúng định dạng"),
       name: Yup.string()
         .required("Tên không được để trống")
         .matches(
@@ -93,7 +88,7 @@ export default function Profile() {
     }),
     onSubmit: (values) => {
       let newAcc = new Account();
-      newAcc.email = values.email;
+      newAcc.email = userLogin.email;
       newAcc.password = values.password;
       newAcc.name = values.name;
       newAcc.gender = values.gender;
@@ -103,6 +98,16 @@ export default function Profile() {
       } else {
         newAcc.gender = false;
       }
+
+      (async () => {
+        try {
+          const result = await http.post("/Users/updateProfile", newAcc);
+          alert(result.data.content);
+        } catch (error) {
+          alert(error.data.content);
+          return;
+        }
+      })();
     },
   });
   const handleRadioButtons = (e) => (frm.values.gender = e.target.value);
@@ -142,8 +147,8 @@ export default function Profile() {
                 placeholder="Email"
                 onChange={frm.handleChange}
                 onBlur={frm.handleBlur}
-                value={update.email}
-                onInput={handleChangeInput}
+                value={userLogin.email}
+                disabled={true}
               />
               {frm.errors.email ? (
                 <span className="text-danger">{frm.errors.email} </span>
