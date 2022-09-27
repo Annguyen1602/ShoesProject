@@ -22,7 +22,7 @@ export default function Profile() {
 
   const dispatch = useDispatch();
   const [passwordType, setPassWordType] = useState("password");
-  const [passwordReType, setPassWordReType] = useState("password");
+  
 
   const [passwordInput, setPasswordInput] = useState("");
   const handlePasswordChange = (e) => {
@@ -41,13 +41,7 @@ export default function Profile() {
     }
     setPassWordType("password");
   };
-  const toggleRePassword = () => {
-    if (passwordReType === "password") {
-      setPassWordReType("text");
-      return;
-    }
-    setPassWordReType("password");
-  };
+  
 
   const [update, setUpdate] = useState({
     email: userLogin.email,
