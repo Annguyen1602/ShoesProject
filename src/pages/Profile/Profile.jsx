@@ -7,13 +7,19 @@ import { ACCESS_TOKEN, getStore, http } from "../../utils/tool";
 import { Account } from "../../Model/Model";
 import axios from "axios";
 import { history } from "../..";
-import { getFavoriteAction, getFavoriteApi, getProfileApi } from "../../redux/reducers/userLoginReducer";
+import {
+  getFavoriteAction,
+  getFavoriteApi,
+  getProfileApi,
+} from "../../redux/reducers/userLoginReducer";
 import { Navigate } from "react-router-dom";
-import Pagination from 'react-bootstrap/Pagination';
-
+import Pagination from "react-bootstrap/Pagination";
 
 export default function Profile() {
-  const { userLogin ,userFavorite } = useSelector((state) => state.userLoginReducer);
+  const { userLogin, userFavorite } = useSelector(
+    (state) => state.userLoginReducer
+  );
+  console.log(userLogin.avatar);
 
   const dispatch = useDispatch();
   const [passwordType, setPassWordType] = useState("password");
@@ -24,13 +30,10 @@ export default function Profile() {
     setPasswordInput(e.target.value);
   };
 
-
-useEffect(()=>{
-  dispatch(getProfileApi())
-  dispatch(getFavoriteApi())
-},[])
-
-
+  useEffect(() => {
+    dispatch(getProfileApi());
+    dispatch(getFavoriteApi());
+  }, []);
 
   const togglePassword = () => {
     if (passwordType === "password") {
@@ -47,6 +50,12 @@ useEffect(()=>{
     setPassWordReType("password");
   };
 
+  const [update, setUpdate] = useState({
+    email: userLogin.email,
+    name: userLogin.name,
+    phone: userLogin.phone,
+    gender: true,
+  });
   const frm = useFormik({
     initialValues: {
       email: "",
@@ -99,19 +108,23 @@ useEffect(()=>{
   const handleRadioButtons = (e) => (frm.values.gender = e.target.value);
   if (!getStore(ACCESS_TOKEN)) {
     //Nếu chưa đăng nhập => Chuyển hướng trang
-    alert('Đăng nhập để vào trang này !');
-    return <Navigate to='/login' />
-}
+    alert("Đăng nhập để vào trang này !");
+    return <Navigate to="/login" />;
+  }
+  const handleChangeInput = (e) => {
+    let { id, value } = e.target;
+    let dataType = e.target.getAttribute("data-type");
+    let newValue = { ...update };
+    newValue[id] = value;
+    setUpdate({ update: newValue });
+  };
+
   return (
     <div className="update">
       <h2 className="title">Profile</h2>
       <div className="container d-flex h-100">
         <div className="image col-2">
-          <img
-            src="https://i.pravatar.cc?u=annguyen1996@gmail.com"
-            alt="..."
-            className="w-100"
-          />
+          <img src={userLogin.avatar} alt={userLogin.name} className="w-100" />
         </div>
         <form
           className="form d-flex flex-wrap justify-content-start col-10 "
@@ -121,6 +134,7 @@ useEffect(()=>{
             <div className="input-group d-flex flex-column">
               <h2>Email</h2>
               <input
+                data-type="email"
                 type="email"
                 name="email"
                 id="email"
@@ -128,6 +142,8 @@ useEffect(()=>{
                 placeholder="Email"
                 onChange={frm.handleChange}
                 onBlur={frm.handleBlur}
+                value={update.email}
+                onInput={handleChangeInput}
               />
               {frm.errors.email ? (
                 <span className="text-danger">{frm.errors.email} </span>
@@ -140,6 +156,7 @@ useEffect(()=>{
             <div className="input-group d-flex flex-column">
               <h2>Name</h2>
               <input
+                data-type="name"
                 type="text"
                 name="name"
                 id="name"
@@ -147,6 +164,8 @@ useEffect(()=>{
                 placeholder="Name"
                 onChange={frm.handleChange}
                 onBlur={frm.handleBlur}
+                value={update.name}
+                onInput={handleChangeInput}
               />
 
               <span className="text-danger">{frm.errors.name} </span>
@@ -157,6 +176,7 @@ useEffect(()=>{
             <div className="input-group d-flex flex-column">
               <h2>Phone</h2>
               <input
+                data-type="phone"
                 type="text"
                 name="phone"
                 id="phone"
@@ -164,6 +184,8 @@ useEffect(()=>{
                 placeholder="Phone"
                 onChange={frm.handleChange}
                 onBlur={frm.handleBlur}
+                value={update.phone}
+                onInput={handleChangeInput}
               />
               <span className="text-danger">{frm.errors.phone} </span>
             </div>
@@ -172,6 +194,7 @@ useEffect(()=>{
             <div className="input-group d-flex flex-column">
               <h2>Password</h2>
               <input
+                data-type="password"
                 type={passwordType}
                 name="password"
                 className="form-control input-sm w-100"
@@ -197,6 +220,7 @@ useEffect(()=>{
             <div className="input-group" id="gender">
               <p>Gender</p>
               <input
+                data-type="gender"
                 type="radio"
                 id="Male"
                 name="Choose"
@@ -224,7 +248,7 @@ useEffect(()=>{
           </div>
         </form>
       </div>
-      <hr/>
+      <hr />
       <div className="container order d-flex align-items-start flex-wrap">
         <div
           className="nav flex-row nav-pills me-3 col-10"
@@ -242,7 +266,7 @@ useEffect(()=>{
             aria-controls="v-pills-history"
             aria-selected="true"
           >
-           Order History
+            Order History
           </button>
           <button
             className="nav-link"
@@ -264,37 +288,47 @@ useEffect(()=>{
             role="tabpanel"
             aria-labelledby="v-pills-history-tab"
           >
-            {userLogin?.ordersHistory?.map((orderItem,index)=>{
-              return <div className="cover mt-2" key={index}>
-                
-              <hr/>
-              <p>+ Order has been placed on {orderItem.date}</p>
-            <table className="table">
-              <thead className="bg-light">
-                <tr>
-                <th>ID</th>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Total</th>
-                </tr>
-              </thead>
-              {orderItem?.orderDetail?.map((item,index)=>{
-                return <tbody key={index}>
-                <tr>
-                  <td>{orderItem.id}</td>
-                  <td><img src={item.image} alt={item.name} height={50} /></td>
-                  <td>{item.name}</td>
-                  <td>{item.price}</td>
-                  <td>{item.quantity}</td>
-                  <td>{item.price*item.quantity}</td>
-                </tr>
-              </tbody>
-              })}
-
-            </table>
-            </div>
+            {userLogin?.ordersHistory?.map((orderItem, index) => {
+              return (
+                <div className="cover mt-2" key={index}>
+                  <hr />
+                  <p>+ Order has been placed on {orderItem.date}</p>
+                  <table className="table">
+                    <thead className="bg-light">
+                      <tr>
+                        <th>ID</th>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                      </tr>
+                    </thead>
+                    {orderItem?.orderDetail?.map((item, index) => {
+                      return (
+                        <tbody key={index}>
+                          <tr>
+                            <td>{orderItem.id}</td>
+                            <td>
+                              <img
+                                src={item.image}
+                                alt={item.name}
+                                height={50}
+                              />
+                            </td>
+                            <td>{item.name}</td>
+                            <td>{item.price}$</td>
+                            <td>{item.quantity}</td>
+                            <td>
+                              {(item.price * item.quantity).toLocaleString()}
+                            </td>
+                          </tr>
+                        </tbody>
+                      );
+                    })}
+                  </table>
+                </div>
+              );
             })}
           </div>
 
@@ -306,65 +340,38 @@ useEffect(()=>{
           >
             <div className="mt-2">
               <hr />
-              <h3>Order Favorite</h3>
+
               <table className="table">
                 <thead>
                   <tr>
-                    <th>name</th>
-                    <th>quantity</th>
-                    <th>img</th>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Image</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td>name</td>
-                    <td>1</td>
-                    <td>
-                      <img
-                        src="{item.image}"
-                        width={50}
-                        height={50}
-                        style={{ objectFit: "cover" }}
-                        alt="..."
-                      />
-                    </td>
-                  </tr>
-                  {/* {orderItem.orderDetail?.map((item, index) => {
-                            return <tr key={index}>
-                                <td>{item.name}</td>
-                                <td>1</td>
-                                <td>
-                                    <img src={item.image} width={50} height={50} style={{ objectFit: 'cover' }} alt='...' />
-                                </td>
-                            </tr>
-                        })} */}
-                </tbody>
+                {userFavorite?.productsFavorite?.map((itemFavorite, index) => {
+                  return (
+                    <tbody key={index}>
+                      <tr>
+                        <td>{itemFavorite.id}</td>
+                        <td>{itemFavorite.name}</td>
+                        <td>
+                          <img
+                            src={itemFavorite.image}
+                            alt={itemFavorite.name}
+                            height={50}
+                          />
+                        </td>
+                      </tr>
+                    </tbody>
+                  );
+                })}
               </table>
             </div>
           </div>
         </div>
       </div>
-      <div style={{ display: 'block', width: 700, padding: 30 }}>
-      <h4>React-Bootstrap Pagination Component</h4>
-      <Pagination>
-      <Pagination.First />
-      <Pagination.Prev />
-      <Pagination.Item>{1}</Pagination.Item>
-      <Pagination.Ellipsis />
-
-      <Pagination.Item>{10}</Pagination.Item>
-      <Pagination.Item>{11}</Pagination.Item>
-      <Pagination.Item active>{12}</Pagination.Item>
-      <Pagination.Item>{13}</Pagination.Item>
-      <Pagination.Item disabled>{14}</Pagination.Item>
-
-      <Pagination.Ellipsis />
-      <Pagination.Item>{20}</Pagination.Item>
-      <Pagination.Next />
-      <Pagination.Last />
-    </Pagination>
-    </div>
-  );
+      );
     </div>
   );
 }

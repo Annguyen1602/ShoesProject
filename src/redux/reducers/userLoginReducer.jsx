@@ -42,7 +42,7 @@ export const loginApi = (userLogin) => {
       const result = await http.post('/Users/signin', userLogin);
       console.log(userLogin);
       // đăng nhập thành công lưu dữ liệu vào store , cookies
-      console.log(result);
+      
       setCookie(ACCESS_TOKEN, result.data.content.accessToken, 30);
       setStore(ACCESS_TOKEN, result.data.content.accessToken);
       dispatch(getProfileApi());
@@ -54,25 +54,25 @@ export const loginApi = (userLogin) => {
   };
 };
 
-export const getProfileApi = (accessToken = getStore(ACCESS_TOKEN)) => {
+export const getProfileApi = () => {
   return async (dispatch) => {
     try {
       const result = await http.post("/Users/getProfile");
       const action = getProfileAction(result.data.content);
       dispatch(action);
-
       setStoreJson(USER_LOGIN, result.data.content);
     } catch (error) {
       console.log(error);
     }
   };
 };
- export const getFavoriteApi = (accessToken = getStore(ACCESS_TOKEN))=>{
+ export const getFavoriteApi = ()=>{
   return async (dispatch) =>{
     try {
       const result = await http.get('/Users/getproductfavorite');
-      const action = getFavoriteAction(result.data.content.productsFavorite)
+      const action = getFavoriteAction(result.data.content);
       dispatch(action)
+      setStoreJson(USER_FAVORITE,result.data.content)
     } catch (error) {
       console.log(error);
       
