@@ -16,6 +16,7 @@ import { createBrowserHistory } from "history";
 import Profile from "./pages/Profile/Profile";
 import 'bootstrap/dist/css/bootstrap.css';
 import "./index.css";
+import Search from "./pages/Search/Search";
 
 
 export const history = createBrowserHistory({ window });
@@ -34,6 +35,7 @@ root.render(
           <Route path="register" element={<Register/>}></Route>
           <Route path="login" element={<Login/>}></Route>
           <Route path="profile" element={<Profile/>}></Route>
+          <Route path="search" element={<Search/>}></Route>
 
         </Route>
       </Routes>

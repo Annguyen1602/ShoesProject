@@ -15,12 +15,16 @@ export default function Header() {
             </NavLink>
           </div>
           <div className="header-right d-flex">
+          <NavLink to="/search" className="text-white text-decoration-none me-2">Search</NavLink>
             <div className="cover">
+              
               <a href="#" className="d-flex text-decoration-none">
                 <i className="fa-solid fa-cart-shopping text-white" />
                 <p className="text-white">(1)</p>
               </a>
             </div>
+            
+
             <NavLink to="/login" className="text-white text-decoration-none">Login</NavLink>
             <NavLink to="/register" className="text-white text-decoration-none">Register</NavLink>
           </div>
@@ -37,6 +41,10 @@ export default function Header() {
       </div>
     </div>
   </header>
+  
+
+  
+
   
 </div>
   )
