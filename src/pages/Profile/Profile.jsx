@@ -136,13 +136,13 @@ export default function Profile() {
                 data-type="email"
                 type="email"
                 name="email"
-                id="email"
+                id="staticEmail"
                 className="form-control input-sm w-100"
                 placeholder="Email"
                 onChange={frm.handleChange}
                 onBlur={frm.handleBlur}
                 value={userLogin.email}
-                disabled={true}
+                readonly=""
               />
               {frm.errors.email ? (
                 <span className="text-danger">{frm.errors.email} </span>

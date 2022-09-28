@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { debounce } from "lodash";
-
+import Dropdown from "react-bootstrap/Dropdown";
 export default function Search() {
   const { arrProduct } = useSelector((state) => state.productReducer);
 
@@ -11,7 +11,7 @@ export default function Search() {
     var lowerCase = e.target.value.toLowerCase();
     setInputText(lowerCase);
   };
-  const debouceInputHandler = debounce(inputHandler, 300);
+  const debouceInputHandler = debounce(inputHandler, 500);
 
   const filteredData = arrProduct.filter((el) => {
     //if no input the return the original
@@ -25,8 +25,22 @@ export default function Search() {
     }
   });
 
+  const sortByPriceAscending = (sort)=>{
+
+    if(sort === "ascending"){
+      filteredData.sort((a,b)=>a.price - b.price)
+    
+    }
+    if(sort === "decrease"){
+      filteredData.sort((a,b)=>b.price - a.price)
+    
+    }
+    return filteredData
+
+  }
+
   return (
-    <div className="container">
+    <div className="container" style={{ marginTop: "68px" }}>
       <h2>Search</h2>
       <div className="search mb-5">
         <input
@@ -34,9 +48,31 @@ export default function Search() {
           placeholder="Product name"
           onChange={debouceInputHandler}
         />
-        <button>Search</button>
+        <button className="searchSubmit" onSubmit={inputHandler}>
+          Search
+        </button>
       </div>
-      <h1>Search Result</h1>
+      <h1 className="title">Search Result</h1>
+
+      <div className="dropdown">
+        <button
+          className="btn dropdown-toggle"
+          type="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          Sort
+        </button>
+        <ul className="dropdown-menu">
+          <li>
+           <button className="dropdown-item"  >Decrease</button>
+          </li>
+          <li>
+          <button className="dropdown-item" >Ascending</button>
+          </li>
+        </ul>
+      </div>
+
       <div className="result d-flex flex-wrap">
         {filteredData.map((prod, index) => {
           return (
@@ -51,7 +87,7 @@ export default function Search() {
                 </d>
                 <div className="buy-click d-flex">
                   <NavLink to={`/detail/${prod.id}`}>Buy now</NavLink>
-                  <p>{prod.price}</p>
+                  <p>{prod.price}$</p>
                 </div>
               </div>
             </div>
