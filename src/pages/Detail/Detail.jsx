@@ -1,9 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useParams } from "react-router-dom";
+import { getArrCartAction } from "../../redux/reducers/cartReducer";
 import { getProductDetailApi } from "../../redux/reducers/productReducer";
 
 export default function Detail() {
+  const [quantity,setQuantity] =useState(1)
   const { productDetail } = useSelector((state) => state.productReducer);
   const dispatch = useDispatch();
   const params = useParams();
@@ -42,11 +44,16 @@ export default function Detail() {
             </div>
             <span id="price">{productDetail.price} $</span>
             <div className="number-of-product">
-              <button id="plus">+</button>
-              <span>1</span>
-              <button id="minus">-</button>
+              <button id="plus" onClick={()=>{
+                setQuantity(quantity +1)
+              }}>+</button>
+              <span>{quantity}</span>
+              <button id="minus" onClick={()=>{
+                setQuantity(quantity -1)
+              }}>-</button>
             </div>
             <button onClick={()=>{
+              dispatch(getArrCartAction({...productDetail,quantity}))
               
             }}>Add to cart</button>
           </div>

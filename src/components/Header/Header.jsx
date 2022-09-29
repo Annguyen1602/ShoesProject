@@ -22,10 +22,10 @@ export default function Header() {
           <NavLink to="/search" className="text-white text-decoration-none me-2">Search</NavLink>
             <div className="cover">
               
-              <a href="#" className="d-flex text-decoration-none">
+              <NavLink to="/cart" className="d-flex text-decoration-none">
                 <i className="fa-solid fa-cart-shopping text-white" />
                 <p className="text-white">({numberItem})</p>
-              </a>
+              </NavLink>
             </div>
             
 
