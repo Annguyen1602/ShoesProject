@@ -7,6 +7,7 @@ export default function Detail() {
   const { productDetail } = useSelector((state) => state.productReducer);
   const dispatch = useDispatch();
   const params = useParams();
+  
 
   
 
@@ -45,7 +46,7 @@ export default function Detail() {
               <span>1</span>
               <button id="minus">-</button>
             </div>
-            <button>Add to cart</button>
+            <button >Add to cart</button>
           </div>
         </div>
         

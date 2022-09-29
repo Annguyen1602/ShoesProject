@@ -1,8 +1,12 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import image from '../../assets/img/image 3.png'
 
 export default function Header() {
+  const {arrCart} = useSelector(state => state.cartReducer)
+
+  const numberItem = arrCart.length
   return (
     <div>
   <header className="header">
@@ -20,7 +24,7 @@ export default function Header() {
               
               <a href="#" className="d-flex text-decoration-none">
                 <i className="fa-solid fa-cart-shopping text-white" />
-                <p className="text-white">(1)</p>
+                <p className="text-white">({numberItem})</p>
               </a>
             </div>
             

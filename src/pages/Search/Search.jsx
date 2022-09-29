@@ -1,43 +1,65 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { debounce } from "lodash";
 import Dropdown from "react-bootstrap/Dropdown";
-export default function Search() {
-  const { arrProduct } = useSelector((state) => state.productReducer);
 
-  const [inputText, setInputText] = useState("");
+import DropdownButton from "react-bootstrap/DropdownButton";
+
+export default function Search() {
+    const { arrProduct } = useSelector((state) => state.productReducer);
+    let [sortArray, setSortArray] = useState();
+    const [inputText, setInputText] = useState("");
+  
+
+  
   let inputHandler = (e) => {
-    var lowerCase = e.target.value.toLowerCase();
+    let lowerCase = e.target.value.toLowerCase();
     setInputText(lowerCase);
+    
+    
   };
   const debouceInputHandler = debounce(inputHandler, 500);
 
-  const filteredData = arrProduct.filter((el) => {
+  sortArray = arrProduct.filter((el) => {
+    
     //if no input the return the original
 
     if (inputText === "") {
+        
       return el;
     }
     //return the item which contains the user input
-    else {
+    else { 
+        
       return el.name.toLowerCase().includes(inputText);
     }
   });
+  
+  
 
-  const sortByPriceAscending = (sort)=>{
+  
+//   console.log(sortArray);
+  
+ 
 
-    if(sort === "ascending"){
-      filteredData.sort((a,b)=>a.price - b.price)
-    
+  const sortByPriceAscending = (sort) => {
+//    let arr =[...sortArray]
+debugger
+   const newArr = [...sortArray]
+
+    if (sort === "ascending") {
+        newArr.sort((a, b) => a.price - b.price);
     }
-    if(sort === "decrease"){
-      filteredData.sort((a,b)=>b.price - a.price)
-    
+    if (sort === "decrease") {
+        newArr.sort((a, b) => b.price - a.price);
     }
-    return filteredData
+    
 
-  }
+    setSortArray(newArr)
+    
+   
+  };
 
   return (
     <div className="container" style={{ marginTop: "68px" }}>
@@ -54,27 +76,29 @@ export default function Search() {
       </div>
       <h1 className="title">Search Result</h1>
 
-      <div className="dropdown">
-        <button
-          className="btn dropdown-toggle"
-          type="button"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
+      <DropdownButton id="dropdown-item-button" title="Sort">
+        <Dropdown.Item
+          as="button"
+          onClick={() => {
+            sortByPriceAscending("decrease");
+            
+          }}
         >
-          Sort
-        </button>
-        <ul className="dropdown-menu">
-          <li>
-           <button className="dropdown-item"  >Decrease</button>
-          </li>
-          <li>
-          <button className="dropdown-item" >Ascending</button>
-          </li>
-        </ul>
-      </div>
+          Decrease
+        </Dropdown.Item>
+        <Dropdown.Item
+          as="button"
+          onClick={() => {
+            sortByPriceAscending("ascending")
+            ;
+          }}
+        >
+          Ascending
+        </Dropdown.Item>
+      </DropdownButton>
 
       <div className="result d-flex flex-wrap">
-        {filteredData.map((prod, index) => {
+        {sortArray?.map((prod, index) => {
           return (
             <div className="item col-12 col-md-6 col-xl-4 " key={index}>
               <div className="cover">
