@@ -1,8 +1,15 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  quantityChange,
+  quantityChangeMinus,
+  quantityChangePlus,
+} from "../../redux/reducers/cartReducer";
 
 export default function Cart() {
-  const { arrCart } = useSelector((state) => state.cartReducer);
+  let { arrCart } = useSelector((state) => state.cartReducer);
+  //   const [quantityCart,setQuantityCart] = useState()
+  const dispatch = useDispatch();
 
   return (
     <div className="container">
@@ -49,21 +56,100 @@ export default function Cart() {
                 <td>{itemOrder.name}</td>
                 <td>{itemOrder.price} $</td>
                 <td>
-                  <button style={{background:"#6200EE", boxShadow:"0px 8px 10px rgba(0, 0, 0, 0.14), 0px 3px 14px rgba(0, 0, 0, 0.12), 0px 5px 5px rgba(0, 0, 0, 0.2)", width:"40px",height:"30px",borderRadius:"4px"}} className="text-white border-0" >+</button>
-                  <span style={{padding:"0 20px"}}>{itemOrder.quantity}</span>
-                  <button style={{background:"#6200EE",boxShadow:"0px 8px 10px rgba(0, 0, 0, 0.14), 0px 3px 14px rgba(0, 0, 0, 0.12), 0px 5px 5px rgba(0, 0, 0, 0.2)", width:"40px",height:"30px", borderRadius:"4px"}} className="text-white border-0">-</button></td>
+                  <button
+                    style={{
+                      background: "#6200EE",
+                      boxShadow:
+                        "0px 8px 10px rgba(0, 0, 0, 0.14), 0px 3px 14px rgba(0, 0, 0, 0.12), 0px 5px 5px rgba(0, 0, 0, 0.2)",
+                      width: "40px",
+                      height: "30px",
+                      borderRadius: "4px",
+                    }}
+                    className="text-white border-0"
+                    onClick={() => {
+                      let arrCartMore = [...arrCart];
+                      let index = arrCartMore.findIndex(
+                        (item) => item.id === itemOrder.id
+                      );
+
+                      dispatch(quantityChangePlus(index));
+                    }}
+                  >
+                    +
+                  </button>
+                  <span style={{ padding: "0 20px" }}>
+                    {itemOrder.quantity}
+                  </span>
+                  <button
+                    style={{
+                      background: "#6200EE",
+                      boxShadow:
+                        "0px 8px 10px rgba(0, 0, 0, 0.14), 0px 3px 14px rgba(0, 0, 0, 0.12), 0px 5px 5px rgba(0, 0, 0, 0.2)",
+                      width: "40px",
+                      height: "30px",
+                      borderRadius: "4px",
+                    }}
+                    className="text-white border-0"
+                    onClick={() => {
+                      let arrCartMore = [...arrCart];
+                      let index = arrCartMore.findIndex(
+                        (item) => item.id === itemOrder.id
+                      );
+
+                      dispatch(quantityChangeMinus(index));
+                    }}
+                  >
+                    -
+                  </button>
+                </td>
                 <td>{itemOrder.quantity * itemOrder.price} $</td>
                 <td>
-                  <button className="btn text-white me-4" style={{background:"#6200EE", boxShadow:"0px 8px 10px rgba(0, 0, 0, 0.14), 0px 3px 14px rgba(0, 0, 0, 0.12), 0px 5px 5px rgba(0, 0, 0, 0.2)", width:"80px",height:"36px",borderRadius:"4px"}} >EDIT</button>
-                  <button className="btn text-white" style={{background:"#EB5757", boxShadow:"0px 8px 10px rgba(0, 0, 0, 0.14), 0px 3px 14px rgba(0, 0, 0, 0.12), 0px 5px 5px rgba(0, 0, 0, 0.2)", width:"100px",height:"36px",borderRadius:"4px"}}>DELETE</button>
+                  <button
+                    className="btn text-white me-4"
+                    style={{
+                      background: "#6200EE",
+                      boxShadow:
+                        "0px 8px 10px rgba(0, 0, 0, 0.14), 0px 3px 14px rgba(0, 0, 0, 0.12), 0px 5px 5px rgba(0, 0, 0, 0.2)",
+                      width: "80px",
+                      height: "36px",
+                      borderRadius: "4px",
+                    }}
+                  >
+                    EDIT
+                  </button>
+                  <button
+                    className="btn text-white"
+                    style={{
+                      background: "#EB5757",
+                      boxShadow:
+                        "0px 8px 10px rgba(0, 0, 0, 0.14), 0px 3px 14px rgba(0, 0, 0, 0.12), 0px 5px 5px rgba(0, 0, 0, 0.2)",
+                      width: "100px",
+                      height: "36px",
+                      borderRadius: "4px",
+                    }}
+                  >
+                    DELETE
+                  </button>
                 </td>
               </tr>
             );
           })}
         </tbody>
       </table>
-      <div className="text-end" >
-      <button className="btn text-white" style={{background:"#F2994A", boxShadow:"0px 8px 10px rgba(0, 0, 0, 0.14), 0px 3px 14px rgba(0, 0, 0, 0.12), 0px 5px 5px rgba(0, 0, 0, 0.2)", width:"152px",height:"36px",borderRadius:"4px"}}>SUBMIT ORDER</button>
+      <div className="text-end">
+        <button
+          className="btn text-white"
+          style={{
+            background: "#F2994A",
+            boxShadow:
+              "0px 8px 10px rgba(0, 0, 0, 0.14), 0px 3px 14px rgba(0, 0, 0, 0.12), 0px 5px 5px rgba(0, 0, 0, 0.2)",
+            width: "152px",
+            height: "36px",
+            borderRadius: "4px",
+          }}
+        >
+          SUBMIT ORDER
+        </button>
       </div>
     </div>
   );

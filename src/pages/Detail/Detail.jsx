@@ -5,7 +5,7 @@ import { getArrCartAction } from "../../redux/reducers/cartReducer";
 import { getProductDetailApi } from "../../redux/reducers/productReducer";
 
 export default function Detail() {
-  const [quantity,setQuantity] =useState(1)
+  let [quantity,setQuantity] =useState(1)
   const { productDetail } = useSelector((state) => state.productReducer);
   const dispatch = useDispatch();
   const params = useParams();
@@ -20,6 +20,9 @@ export default function Detail() {
     const action = getProductDetailApi(id);
     dispatch(action);
   }, [params.id]);
+
+
+
 
   return (
     <>

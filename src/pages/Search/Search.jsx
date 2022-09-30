@@ -1,40 +1,56 @@
-import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { debounce } from "lodash";
 import Dropdown from "react-bootstrap/Dropdown";
 
 import DropdownButton from "react-bootstrap/DropdownButton";
+import { useEffect, useState } from "react";
 
 export default function Search() {
     const { arrProduct } = useSelector((state) => state.productReducer);
     let [sortArray, setSortArray] = useState();
     const [inputText, setInputText] = useState("");
+    
   
 
   
   let inputHandler = (e) => {
     let lowerCase = e.target.value.toLowerCase();
     setInputText(lowerCase);
-    
-    
+  
   };
   const debouceInputHandler = debounce(inputHandler, 500);
 
-  sortArray = arrProduct.filter((el) => {
-    
-    //if no input the return the original
+  useEffect(()=>{
+    if(arrProduct){
+      setSortArray(arrProduct)
+    }
+  },[arrProduct])
 
-    if (inputText === "") {
-        
-      return el;
+  useEffect(()=>{
+    if(inputText){
+      let sortArr = arrProduct.filter((item)=>{
+        return item.name.toLowerCase().includes(inputText)
+      })
+      setSortArray(sortArr)
+    }else{
+      setSortArray(arrProduct)
     }
-    //return the item which contains the user input
-    else { 
+  },[inputText, arrProduct])
+
+  // sortArray = arrProduct.filter((el) => {
+    
+
+  //   if (inputText === "") {
         
-      return el.name.toLowerCase().includes(inputText);
-    }
-  });
+  //     return el;
+  //   }
+  //   //return the item which contains the user input
+  //   else { 
+        
+  //     return el.name.toLowerCase().includes(inputText);
+  //   }
+  // });
   
   
 
@@ -44,21 +60,15 @@ export default function Search() {
  
 
   const sortByPriceAscending = (sort) => {
-//    let arr =[...sortArray]
-debugger
    const newArr = [...sortArray]
-
     if (sort === "ascending") {
         newArr.sort((a, b) => a.price - b.price);
     }
     if (sort === "decrease") {
         newArr.sort((a, b) => b.price - a.price);
     }
-    
-
+  
     setSortArray(newArr)
-    
-   
   };
 
   return (
