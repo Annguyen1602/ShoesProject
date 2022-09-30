@@ -41,3 +41,9 @@ const cartReducer = createSlice({
 export const { getArrCartAction, quantityChangePlus,quantityChangeMinus } = cartReducer.actions;
 
 export default cartReducer.reducer;
+
+//------------------------API--------------------------
+
+export const submitActionApi = (arr)=>{
+
+}
