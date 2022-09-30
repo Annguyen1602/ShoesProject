@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { getStoreJson, http, USER_LOGIN } from "../../utils/tool";
+import { getProfileApi } from "./userLoginReducer";
 
 
 const initialState = {
@@ -45,5 +47,17 @@ export default cartReducer.reducer;
 //------------------------API--------------------------
 
 export const submitActionApi = (arr)=>{
+return async (dispatch) =>{
+ 
+  try {
+    console.log(arr);
+    let { email } = getStoreJson(USER_LOGIN);
+    const result = await http.post("/Users/order", {...arr, email})
+    
+    console.log(result.data.content);
 
+  } catch (error) {
+    console.log(error);
+  }
+}
 }

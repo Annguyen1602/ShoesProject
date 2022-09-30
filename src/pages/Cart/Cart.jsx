@@ -1,15 +1,42 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 import {
   quantityChange,
   quantityChangeMinus,
   quantityChangePlus,
+  submitActionApi,
 } from "../../redux/reducers/cartReducer";
+import {
+  ACCESS_TOKEN,
+  getStore,
+  getStoreJson,
+  USER_LOGIN,
+} from "../../utils/tool";
 
 export default function Cart() {
   let { arrCart } = useSelector((state) => state.cartReducer);
   //   const [quantityCart,setQuantityCart] = useState()
   const dispatch = useDispatch();
+
+  // let orderItem = {
+  //   orderDetail: [],
+  // };
+  let orderDetail = arrCart.map((item) => ({
+    productId: item.id,
+    quantity: item.quantity,
+  }));
+  console.log(orderDetail);
+  // orderItem.orderDetail.push(arrSubmit);
+
+  
+  
+
+  if (!getStore(ACCESS_TOKEN)) {
+    //Nếu chưa đăng nhập => Chuyển hướng trang
+    alert("Đăng nhập để vào trang này !");
+    return <Navigate to="/login" />;
+  }
 
   return (
     <div className="container">
@@ -146,6 +173,9 @@ export default function Cart() {
             width: "152px",
             height: "36px",
             borderRadius: "4px",
+          }}
+          onClick={() => {
+            dispatch(submitActionApi(orderDetail));
           }}
         >
           SUBMIT ORDER
