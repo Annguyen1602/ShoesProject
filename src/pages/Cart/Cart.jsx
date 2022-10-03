@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { Navigate, NavLink } from "react-router-dom";
 import {
   quantityChange,
   quantityChangeMinus,
@@ -23,14 +23,15 @@ export default function Cart() {
   //   orderDetail: [],
   // };
   let orderDetail = arrCart.map((item) => ({
-    productId: item.id,
+    productId: item.id.toString(),
     quantity: item.quantity,
   }));
-  console.log(orderDetail);
-  // orderItem.orderDetail.push(arrSubmit);
-
-  
-  
+  let { email } = getStoreJson(USER_LOGIN);
+  let dataOrder = {
+    orderDetail: orderDetail,
+    email: email,
+  };
+  console.log(dataOrder);
 
   if (!getStore(ACCESS_TOKEN)) {
     //Nếu chưa đăng nhập => Chuyển hướng trang
@@ -80,7 +81,7 @@ export default function Cart() {
                   {" "}
                   <img src={itemOrder.image} alt={itemOrder.name} height={50} />
                 </td>
-                <td>{itemOrder.name}</td>
+                <td><NavLink to={`/detail/${itemOrder.id}`} className='text-decoration-none text-dark'>{itemOrder.name}</NavLink></td>
                 <td>{itemOrder.price} $</td>
                 <td>
                   <button
@@ -175,7 +176,7 @@ export default function Cart() {
             borderRadius: "4px",
           }}
           onClick={() => {
-            dispatch(submitActionApi(orderDetail));
+            dispatch(submitActionApi(dataOrder));
           }}
         >
           SUBMIT ORDER

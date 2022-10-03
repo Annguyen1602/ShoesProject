@@ -51,8 +51,8 @@ return async (dispatch) =>{
  
   try {
     console.log(arr);
-    let { email } = getStoreJson(USER_LOGIN);
-    const result = await http.post("/Users/order", {...arr, email})
+    
+    const result = await http.post("/Users/order", arr)
     
     console.log(result.data.content);
 
