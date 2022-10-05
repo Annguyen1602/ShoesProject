@@ -15,10 +15,13 @@ import Login from "./pages/Login/Login";
 import { createBrowserHistory } from "history";
 import Profile from "./pages/Profile/Profile";
 import 'bootstrap/dist/css/bootstrap.css';
-import "./index.css";
-import "./assets/scss/styles.scss";
+
 import Search from "./pages/Search/Search";
 import Cart from "./pages/Cart/Cart";
+import Demo from "./pages/Cart/Demo";
+import "./index.css";
+import "./assets/scss/styles.scss";
+import 'antd/dist/antd.css';
 
 
 export const history = createBrowserHistory({ window });
@@ -39,6 +42,7 @@ root.render(
           <Route path="profile" element={<Profile/>}></Route>
           <Route path="search" element={<Search/>}></Route>
           <Route path="cart" element={<Cart/>}></Route>
+          <Route path="demo" element={<Demo/>}></Route>
 
         </Route>
       </Routes>
