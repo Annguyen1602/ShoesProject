@@ -14,11 +14,15 @@ import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
 import Login from "./pages/Login/Login";
 import { createBrowserHistory } from "history";
 import Profile from "./pages/Profile/Profile";
-import 'bootstrap/dist/css/bootstrap.css';
-import "./index.css";
-import "./assets/scss/styles.scss";
+
 import Search from "./pages/Search/Search";
 import Cart from "./pages/Cart/Cart";
+import 'bootstrap/dist/css/bootstrap.css';
+import "./index.css";
+import 'antd/dist/antd.css';
+import "./assets/scss/styles.scss";
+import Demo from "./pages/Cart/Demo/Demo";
+
 
 
 export const history = createBrowserHistory({ window });
@@ -39,6 +43,7 @@ root.render(
           <Route path="profile" element={<Profile/>}></Route>
           <Route path="search" element={<Search/>}></Route>
           <Route path="cart" element={<Cart/>}></Route>
+          <Route path="demo" element={<Demo/>}></Route>
 
         </Route>
       </Routes>

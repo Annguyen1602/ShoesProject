@@ -25,7 +25,7 @@ export default function Footer() {
             <div class="col-12 col-md-6 col-xl-4 contact">
               <h2>REGISTER</h2>
               
-              <NavLink to="/register" id="learn">
+              <NavLink to="/register" id="register">
                 Resiter
               </NavLink>
               <NavLink to="/login" id="login">

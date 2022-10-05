@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { Navigate, NavLink } from "react-router-dom";
 import {
   quantityChange,
   quantityChangeMinus,
@@ -13,34 +13,39 @@ import {
   getStoreJson,
   USER_LOGIN,
 } from "../../utils/tool";
+import 'antd/dist/antd.css';
+// import { Checkbox, Divider } from 'antd';
+
+
+// const CheckboxGroup = Checkbox.Group;
+// const plainOptions = ['Apple', 'Pear', 'Orange'];
 
 export default function Cart() {
   let { arrCart } = useSelector((state) => state.cartReducer);
-  //   const [quantityCart,setQuantityCart] = useState()
   const dispatch = useDispatch();
 
-  // let orderItem = {
-  //   orderDetail: [],
-  // };
-  let orderDetail = arrCart.map((item) => ({
+  
+  let orderItem = arrCart.map((item) => ({
     productId: item.id,
     quantity: item.quantity,
   }));
-  console.log(orderDetail);
-  // orderItem.orderDetail.push(arrSubmit);
-
-  
-  
-
   if (!getStore(ACCESS_TOKEN)) {
     //Nếu chưa đăng nhập => Chuyển hướng trang
     alert("Đăng nhập để vào trang này !");
     return <Navigate to="/login" />;
   }
+  let { email } = getStoreJson(USER_LOGIN);
+  let dataOrder = {
+    orderDetail: orderItem,
+    email: email,
+  };
+
+  
 
   return (
     <div className="container">
       <h1>Carts</h1>
+      <NavLink to="/demo">Demo</NavLink>
       <hr />
       <table className="table">
         <thead>
@@ -71,6 +76,7 @@ export default function Cart() {
                     className="form-check-input"
                     type="checkbox"
                     defaultValue
+                    
                     id="flexCheckDefault"
                   />
                 </td>
@@ -80,7 +86,7 @@ export default function Cart() {
                   {" "}
                   <img src={itemOrder.image} alt={itemOrder.name} height={50} />
                 </td>
-                <td>{itemOrder.name}</td>
+                <td><NavLink to={`/detail/${itemOrder.id}`} className="text-decoration-none text-dark">{itemOrder.name}</NavLink></td>
                 <td>{itemOrder.price} $</td>
                 <td>
                   <button
@@ -175,7 +181,7 @@ export default function Cart() {
             borderRadius: "4px",
           }}
           onClick={() => {
-            dispatch(submitActionApi(orderDetail));
+            dispatch(submitActionApi(dataOrder));
           }}
         >
           SUBMIT ORDER

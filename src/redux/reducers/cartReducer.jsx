@@ -51,10 +51,10 @@ return async (dispatch) =>{
  
   try {
     console.log(arr);
-    let { email } = getStoreJson(USER_LOGIN);
-    const result = await http.post("/Users/order", {...arr, email})
     
-    console.log(result.data.content);
+    const result = await http.post("/Users/order", arr)
+    
+    alert(result.data.content);
 
   } catch (error) {
     console.log(error);
