@@ -320,6 +320,7 @@ export default function Profile() {
                             <td>{item.quantity}</td>
                             <td>
                               {(item.price * item.quantity).toLocaleString()}
+                              $
                             </td>
                           </tr>
                         </tbody>

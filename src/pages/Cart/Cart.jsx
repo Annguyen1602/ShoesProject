@@ -1,8 +1,8 @@
+import { Divider, Radio, Table } from "antd";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, NavLink } from "react-router-dom";
 import {
-  quantityChange,
   quantityChangeMinus,
   quantityChangePlus,
   submitActionApi,
@@ -13,162 +13,178 @@ import {
   getStoreJson,
   USER_LOGIN,
 } from "../../utils/tool";
-import 'antd/dist/antd.css';
-// import { Checkbox, Divider } from 'antd';
 
-
-// const CheckboxGroup = Checkbox.Group;
-// const plainOptions = ['Apple', 'Pear', 'Orange'];
-
-export default function Cart() {
-  let { arrCart } = useSelector((state) => state.cartReducer);
+export default function Demo() {
+  const [selectionType, setSelectionType] = useState("checkbox");
+  const { arrCart } = useSelector((state) => state.cartReducer);
   const dispatch = useDispatch();
 
-  
-  let orderItem = arrCart.map((item) => ({
-    productId: item.id,
-    quantity: item.quantity,
-  }));
+  // let orderItem = {
+  //   orderDetail: [],
+  // };
+
   if (!getStore(ACCESS_TOKEN)) {
     //Nếu chưa đăng nhập => Chuyển hướng trang
     alert("Đăng nhập để vào trang này !");
     return <Navigate to="/login" />;
   }
-  let { email } = getStoreJson(USER_LOGIN);
-  let dataOrder = {
-    orderDetail: orderItem,
-    email: email,
-  };
 
-  
+  const columns = [
+    {
+      title: "ID",
+      dataIndex: "id",
+    },
+    {
+      title: "Name",
+      dataIndex: "name",
+    },
+    {
+      title: "Image",
+      dataIndex: "image",
+      render: (imgSrc) => {
+        return <img src={imgSrc} width={85} height={85} alt="..." />;
+      },
+    },
+    {
+      title: "Name",
+      dataIndex: "name",
+    },
+    {
+      title: "Price",
+      dataIndex: "price",
+    },
+    {
+      title: "Quantity",
+      dataIndex: "quantity",
+      render: (text) => {
+        const { quantity, id } = text;
+        return (
+          <>
+            <button
+              style={{
+                background: "#6200EE",
+                boxShadow:
+                  "0px 8px 10px rgba(0, 0, 0, 0.14), 0px 3px 14px rgba(0, 0, 0, 0.12), 0px 5px 5px rgba(0, 0, 0, 0.2)",
+                width: "40px",
+                height: "30px",
+                borderRadius: "4px",
+              }}
+              className="text-white border-0"
+              onClick={() => {
+                let arrCartMore = [...arrCart];
+                let index = arrCartMore.findIndex((item) => item.id === id);
+
+                dispatch(quantityChangePlus(index));
+              }}
+            >
+              +
+            </button>
+            <span style={{ padding: "0 20px" }}>{quantity}</span>
+            <button
+              style={{
+                background: "#6200EE",
+                boxShadow:
+                  "0px 8px 10px rgba(0, 0, 0, 0.14), 0px 3px 14px rgba(0, 0, 0, 0.12), 0px 5px 5px rgba(0, 0, 0, 0.2)",
+                width: "40px",
+                height: "30px",
+                borderRadius: "4px",
+              }}
+              className="text-white border-0"
+              onClick={() => {
+                let arrCartMore = [...arrCart];
+                let index = arrCartMore.findIndex((item) => item.id === id);
+
+                dispatch(quantityChangeMinus(index));
+              }}
+            >
+              -
+            </button>
+          </>
+        );
+      },
+    },
+    {
+      title: "Total",
+      dataIndex: "total",
+    },
+    {
+      title: "Action",
+      dataIndex: "action",
+      render: () => {
+        return (
+          <>
+            <button
+              className="btn text-white me-4"
+              style={{
+                background: "#6200EE",
+                boxShadow:
+                  "0px 8px 10px rgba(0, 0, 0, 0.14), 0px 3px 14px rgba(0, 0, 0, 0.12), 0px 5px 5px rgba(0, 0, 0, 0.2)",
+                width: "80px",
+                height: "36px",
+                borderRadius: "4px",
+              }}
+            >
+              EDIT
+            </button>
+            <button
+              className="btn text-white"
+              style={{
+                background: "#EB5757",
+                boxShadow:
+                  "0px 8px 10px rgba(0, 0, 0, 0.14), 0px 3px 14px rgba(0, 0, 0, 0.12), 0px 5px 5px rgba(0, 0, 0, 0.2)",
+                width: "100px",
+                height: "36px",
+                borderRadius: "4px",
+              }}
+            >
+              DELETE
+            </button>
+          </>
+        );
+      },
+    },
+  ];
+  const dataArr = [];
+  for (let i = 0; i < arrCart.length; i++) {
+    dataArr.push({
+      key: i,
+      id: arrCart[i].id,
+      image: arrCart[i].image,
+      name: arrCart[i].name,
+      price: `${arrCart[i].price}$`,
+      total: `${(arrCart[i].price * arrCart[i].quantity).toLocaleString()}$`,
+      quantity: { quantity: arrCart[i].quantity, id: arrCart[i].id },
+      action: arrCart[i].id,
+    });
+  }
+  let dataSubmit = [];
+  const rowSelection = {
+    onChange: (selectedRowKeys, selectedRows) => {
+      const orderItem = arrCart.map((selectedRows) => ({
+        productId: selectedRows.id,
+        quantity: selectedRows.quantity.quantity,
+      }));
+      const { email } = getStoreJson(USER_LOGIN);
+      dataSubmit = {
+        orderDetail: orderItem,
+        email: email,
+      };
+    },
+  };
 
   return (
     <div className="container">
-      <h1>Carts</h1>
-      <NavLink to="/demo">Demo</NavLink>
-      <hr />
-      <table className="table">
-        <thead>
-          <tr className="bg-light text-center">
-            <th>
-              <input
-                className="form-check-input"
-                type="checkbox"
-                defaultValue
-                id="flexCheckDefault"
-              />
-            </th>
-            <th>ID</th>
-            <th>Image</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Total</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {arrCart.map((itemOrder, index) => {
-            return (
-              <tr key={index} className="text-center">
-                <td>
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    defaultValue
-                    
-                    id="flexCheckDefault"
-                  />
-                </td>
+      <Divider />
 
-                <td>{itemOrder.id}</td>
-                <td>
-                  {" "}
-                  <img src={itemOrder.image} alt={itemOrder.name} height={50} />
-                </td>
-                <td><NavLink to={`/detail/${itemOrder.id}`} className="text-decoration-none text-dark">{itemOrder.name}</NavLink></td>
-                <td>{itemOrder.price} $</td>
-                <td>
-                  <button
-                    style={{
-                      background: "#6200EE",
-                      boxShadow:
-                        "0px 8px 10px rgba(0, 0, 0, 0.14), 0px 3px 14px rgba(0, 0, 0, 0.12), 0px 5px 5px rgba(0, 0, 0, 0.2)",
-                      width: "40px",
-                      height: "30px",
-                      borderRadius: "4px",
-                    }}
-                    className="text-white border-0"
-                    onClick={() => {
-                      let arrCartMore = [...arrCart];
-                      let index = arrCartMore.findIndex(
-                        (item) => item.id === itemOrder.id
-                      );
+      <Table
+        rowSelection={{
+          type: selectionType,
+          ...rowSelection,
+        }}
+        columns={columns}
+        dataSource={dataArr}
+      />
 
-                      dispatch(quantityChangePlus(index));
-                    }}
-                  >
-                    +
-                  </button>
-                  <span style={{ padding: "0 20px" }}>
-                    {itemOrder.quantity}
-                  </span>
-                  <button
-                    style={{
-                      background: "#6200EE",
-                      boxShadow:
-                        "0px 8px 10px rgba(0, 0, 0, 0.14), 0px 3px 14px rgba(0, 0, 0, 0.12), 0px 5px 5px rgba(0, 0, 0, 0.2)",
-                      width: "40px",
-                      height: "30px",
-                      borderRadius: "4px",
-                    }}
-                    className="text-white border-0"
-                    onClick={() => {
-                      let arrCartMore = [...arrCart];
-                      let index = arrCartMore.findIndex(
-                        (item) => item.id === itemOrder.id
-                      );
-
-                      dispatch(quantityChangeMinus(index));
-                    }}
-                  >
-                    -
-                  </button>
-                </td>
-                <td>{itemOrder.quantity * itemOrder.price} $</td>
-                <td>
-                  <button
-                    className="btn text-white me-4"
-                    style={{
-                      background: "#6200EE",
-                      boxShadow:
-                        "0px 8px 10px rgba(0, 0, 0, 0.14), 0px 3px 14px rgba(0, 0, 0, 0.12), 0px 5px 5px rgba(0, 0, 0, 0.2)",
-                      width: "80px",
-                      height: "36px",
-                      borderRadius: "4px",
-                    }}
-                  >
-                    EDIT
-                  </button>
-                  <button
-                    className="btn text-white"
-                    style={{
-                      background: "#EB5757",
-                      boxShadow:
-                        "0px 8px 10px rgba(0, 0, 0, 0.14), 0px 3px 14px rgba(0, 0, 0, 0.12), 0px 5px 5px rgba(0, 0, 0, 0.2)",
-                      width: "100px",
-                      height: "36px",
-                      borderRadius: "4px",
-                    }}
-                  >
-                    DELETE
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
       <div className="text-end">
         <button
           className="btn text-white"
@@ -181,7 +197,11 @@ export default function Cart() {
             borderRadius: "4px",
           }}
           onClick={() => {
-            dispatch(submitActionApi(dataOrder));
+            if (dataSubmit.length === 0) {
+              alert("Vui lòng chọn sản phẩm cần mua");
+              return;
+            }
+            dispatch(submitActionApi(dataSubmit));
           }}
         >
           SUBMIT ORDER
