@@ -94,6 +94,7 @@ export default function Demo() {
                 let arrCartMore = [...arrCart];
                 let index = arrCartMore.findIndex((item) => item.id === id);
 
+                
                 dispatch(quantityChangeMinus(index));
               }}
             >
@@ -158,8 +159,10 @@ export default function Demo() {
     });
   }
   let dataSubmit = [];
+  let submitRow=[]
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
+      submitRow = selectedRows
       const orderItem = selectedRows.map((prod) => ({
         productId: prod.id,
         quantity: prod.quantity.quantity,
@@ -200,11 +203,12 @@ export default function Demo() {
             borderRadius: "4px",
           }}
           onClick={() => {
-            if (dataSubmit.length === 0) {
+            if (submitRow.length == 0) {
               console.log(dataSubmit);
               alert("Vui lòng chọn sản phẩm cần mua");
               return;
             }
+            console.log(dataSubmit);
             dispatch(submitActionApi(dataSubmit));
           }}
         >
