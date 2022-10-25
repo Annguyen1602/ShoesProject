@@ -160,15 +160,18 @@ export default function Demo() {
   let dataSubmit = [];
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
-      const orderItem = arrCart.map((selectedRows) => ({
-        productId: selectedRows.id,
-        quantity: selectedRows.quantity.quantity,
+      const orderItem = selectedRows.map((prod) => ({
+        productId: prod.id,
+        quantity: prod.quantity.quantity,
       }));
       const { email } = getStoreJson(USER_LOGIN);
       dataSubmit = {
         orderDetail: orderItem,
         email: email,
       };
+      console.log(dataSubmit);
+      console.log(orderItem);
+     
     },
   };
 
@@ -198,6 +201,7 @@ export default function Demo() {
           }}
           onClick={() => {
             if (dataSubmit.length === 0) {
+              console.log(dataSubmit);
               alert("Vui lòng chọn sản phẩm cần mua");
               return;
             }

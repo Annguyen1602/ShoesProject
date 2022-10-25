@@ -112,10 +112,9 @@ export default function Profile() {
   }
   const handleChangeInput = (e) => {
     let { id, value } = e.target;
-    let dataType = e.target.getAttribute("data-type");
     let newValue = { ...update };
     newValue[id] = value;
-    setUpdate({ update: newValue });
+    setUpdate(newValue);
   };
 
   return (

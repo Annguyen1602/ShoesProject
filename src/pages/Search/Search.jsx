@@ -38,24 +38,7 @@ export default function Search() {
     }
   },[inputText, arrProduct])
 
-  // sortArray = arrProduct.filter((el) => {
-    
-
-  //   if (inputText === "") {
-        
-  //     return el;
-  //   }
-  //   //return the item which contains the user input
-  //   else { 
-        
-  //     return el.name.toLowerCase().includes(inputText);
-  //   }
-  // });
   
-  
-
-  
-//   console.log(sortArray);
   
  
 

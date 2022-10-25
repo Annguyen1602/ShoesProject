@@ -34,6 +34,9 @@ const cartReducer = createSlice({
     quantityChangeMinus: (state, action) => {
         let index = action.payload;
         let arrAddCart = [...state.arrCart];
+        if(arrAddCart[index].quantity ===1){
+          return state.arrCart = arrAddCart;
+        }
         arrAddCart[index].quantity -= 1;
         state.arrCart = arrAddCart;
       }

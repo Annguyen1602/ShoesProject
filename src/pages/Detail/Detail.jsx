@@ -52,6 +52,9 @@ export default function Detail() {
               }}>+</button>
               <span>{quantity}</span>
               <button id="minus" onClick={()=>{
+                if(quantity ===1){
+                  return quantity
+                }
                 setQuantity(quantity -1)
               }}>-</button>
             </div>
