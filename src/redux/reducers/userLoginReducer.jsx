@@ -48,8 +48,8 @@ export const loginApi = (userLogin) => {
       dispatch(getProfileApi());
       history.push("/profile");
     } catch (error) {
-      console.log(error);
-      history.push("");
+      alert(error.response.data.message)
+      
     }
   };
 };

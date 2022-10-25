@@ -22,17 +22,11 @@ export default function Profile() {
 
   const dispatch = useDispatch();
   const [passwordType, setPassWordType] = useState("password");
-  
 
   const [passwordInput, setPasswordInput] = useState("");
   const handlePasswordChange = (e) => {
     setPasswordInput(e.target.value);
   };
-
-  useEffect(() => {
-    dispatch(getProfileApi());
-    dispatch(getFavoriteApi());
-  }, []);
 
   const togglePassword = () => {
     if (passwordType === "password") {
@@ -41,7 +35,6 @@ export default function Profile() {
     }
     setPassWordType("password");
   };
-  
 
   const [update, setUpdate] = useState({
     email: userLogin.email,
@@ -49,14 +42,20 @@ export default function Profile() {
     phone: userLogin.phone,
     gender: true,
   });
+  useEffect(() => {
+    dispatch(getFavoriteApi());
+    setUpdate(userLogin);
+  }, [userLogin]);
+
   const frm = useFormik({
     initialValues: {
-      email: "",
-      name: "",
-      phone: "",
+      email: update.email,
+      name: update.name,
+      phone: update.phone,
       password: "",
       gender: true,
     },
+    enableReinitialize: true,
 
     validationSchema: Yup.object().shape({
       name: Yup.string()
@@ -112,6 +111,7 @@ export default function Profile() {
   }
   const handleChangeInput = (e) => {
     let { id, value } = e.target;
+    
     let newValue = { ...update };
     newValue[id] = value;
     setUpdate(newValue);
@@ -318,8 +318,7 @@ export default function Profile() {
                             <td>{item.price}$</td>
                             <td>{item.quantity}</td>
                             <td>
-                              {(item.price * item.quantity).toLocaleString()}
-                              $
+                              {(item.price * item.quantity).toLocaleString()}$
                             </td>
                           </tr>
                         </tbody>
