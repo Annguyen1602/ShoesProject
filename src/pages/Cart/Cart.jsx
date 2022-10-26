@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, NavLink } from "react-router-dom";
 import {
+  deleteItem,
   quantityChangeMinus,
   quantityChangePlus,
   submitActionApi,
@@ -14,14 +15,12 @@ import {
   USER_LOGIN,
 } from "../../utils/tool";
 
-export default function Demo() {
+export default function Cart() {
   const [selectionType, setSelectionType] = useState("checkbox");
   const { arrCart } = useSelector((state) => state.cartReducer);
   const dispatch = useDispatch();
 
-  // let orderItem = {
-  //   orderDetail: [],
-  // };
+  
 
   if (!getStore(ACCESS_TOKEN)) {
     //Nếu chưa đăng nhập => Chuyển hướng trang
@@ -111,7 +110,7 @@ export default function Demo() {
     {
       title: "Action",
       dataIndex: "action",
-      render: () => {
+      render: (id) => {
         return (
           <>
             <button
@@ -136,6 +135,11 @@ export default function Demo() {
                 width: "100px",
                 height: "36px",
                 borderRadius: "4px",
+              }}
+              onClick={()=>{
+                let arrCartMore = [...arrCart];
+                let index = arrCartMore.findIndex((item) => item.id === id);
+                dispatch(deleteItem(index))
               }}
             >
               DELETE

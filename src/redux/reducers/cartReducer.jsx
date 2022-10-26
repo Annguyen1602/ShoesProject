@@ -39,11 +39,19 @@ const cartReducer = createSlice({
         }
         arrAddCart[index].quantity -= 1;
         state.arrCart = arrAddCart;
+      },
+      deleteItem:(state,action)=>{
+        let index = action.payload;
+        let arrAddCart = [...state.arrCart];
+        arrAddCart.splice(index,1)
+        state.arrCart = arrAddCart
+
+
       }
   },
 });
 
-export const { getArrCartAction, quantityChangePlus,quantityChangeMinus } = cartReducer.actions;
+export const { getArrCartAction, quantityChangePlus,quantityChangeMinus,deleteItem } = cartReducer.actions;
 
 export default cartReducer.reducer;
 

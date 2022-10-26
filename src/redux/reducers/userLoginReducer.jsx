@@ -58,9 +58,10 @@ export const getProfileApi = () => {
   return async (dispatch) => {
     try {
       const result = await http.post("/Users/getProfile");
+      setStoreJson(USER_LOGIN, result.data.content);
       const action = getProfileAction(result.data.content);
       dispatch(action);
-      setStoreJson(USER_LOGIN, result.data.content);
+      
     } catch (error) {
       console.log(error);
     }
