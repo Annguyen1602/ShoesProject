@@ -58,6 +58,9 @@
         #gender {
           width: 482px;
           height: 68px;
+          @media screen and (max-width: 768px) {
+            width: 345px;
+          }
           p {
             font-weight: $text-regular;
             font-size: $text-big;

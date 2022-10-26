@@ -220,7 +220,7 @@ export default function Register() {
                 value={true}
                 onChange={(e) => handleRadioButtons(e)}
               />
-              <label htmlFor="Male" className="radio-label"></label>
+              <label htmlFor="Male" className="radio-label">Male</label>
               <input
                 type="radio"
                 id="Female"

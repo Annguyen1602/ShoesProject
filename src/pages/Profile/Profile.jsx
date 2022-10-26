@@ -41,15 +41,16 @@ export default function Profile() {
   //-----------Pagination----------------
   const pageSize = 4;
   const [state, setState] = useState({
-    data: userLogin.ordersHistory.orderDetail,
-    totalPage: userLogin.ordersHistory.orderDetail?.length / pageSize,
+    data: userLogin.ordersHistory,
+    totalPage: userLogin.ordersHistory?.length / pageSize,
     current: 1,
     minIndex: 0,
     maxIndex: pageSize,
   });
+  console.log(userLogin.ordersHistory);
   const handleChange = (page) => {
     setState({
-    
+      ...state,
       current: page,
       minIndex: (page - 1) * pageSize,
       maxIndex: page * pageSize,

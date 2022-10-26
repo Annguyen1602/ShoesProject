@@ -6,6 +6,11 @@
     background-size: cover;
     background-repeat: no-repeat;
     height: 600px;
+    @media screen and (max-width:992px) {
+      
+      height: 1057px;
+      
+    }
     
   
     .container {
@@ -26,6 +31,12 @@
               }
             }
             .content-right {
+              @media screen and (max-width:992px) {
+                padding-left: 20px;
+                width: 500px;;
+                
+              }
+
               h1 {
               }
               p {
@@ -51,6 +62,10 @@
           margin-left: -270px;
           width: 66px;
           height: 75px;
+          @media screen and (max-width:992px) {
+            display: none;
+            
+          }
           
         }
         .carousel-control-next-icon {
@@ -58,6 +73,10 @@
           margin-right: -270px ;
           width: 66px;
           height: 75px;
+          @media screen and (max-width:992px) {
+            display: none;
+            
+          }
           
         }
       }

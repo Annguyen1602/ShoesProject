@@ -56,7 +56,7 @@ export default function Search() {
 
   return (
     <div className="container" style={{ marginTop: "68px" }}>
-      <h2>Search</h2>
+      <h2 className="searchTitle">Search</h2>
       <div className="search mb-5">
         <input
           type="text"

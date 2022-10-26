@@ -46,7 +46,7 @@ export default function Login() {
   };
   return (
     <div className="container">
-      <h2>Login</h2>
+      <h2 >Login</h2>
       <hr />
       <form
         className="form flex-wrap d-flex flex-column justify-content-between align-items-center"

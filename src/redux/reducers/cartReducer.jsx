@@ -64,7 +64,7 @@ return async (dispatch) =>{
     console.log(arr);
     
     const result = await http.post("/Users/order", arr)
-    
+    dispatch(getProfileApi())
     alert(result.data.content);
 
   } catch (error) {

@@ -26,7 +26,7 @@ export default function Footer() {
               <h2>REGISTER</h2>
               
               <NavLink to="/register" id="register">
-                Resiter
+                Register
               </NavLink>
               <NavLink to="/login" id="login">
                 Login
