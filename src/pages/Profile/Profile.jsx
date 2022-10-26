@@ -13,12 +13,14 @@ import {
   getProfileApi,
 } from "../../redux/reducers/userLoginReducer";
 import { Navigate } from "react-router-dom";
-import Pagination from "react-bootstrap/Pagination";
+import { Pagination } from "antd";
+
 
 export default function Profile() {
   const { userLogin, userFavorite } = useSelector(
     (state) => state.userLoginReducer
   );
+
 
   const dispatch = useDispatch();
   const [passwordType, setPassWordType] = useState("password");
@@ -35,6 +37,27 @@ export default function Profile() {
     }
     setPassWordType("password");
   };
+
+  //-----------Pagination----------------
+  const pageSize = 4;
+  const [state, setState] = useState({
+    data: userLogin.ordersHistory.orderDetail,
+    totalPage: userLogin.ordersHistory.orderDetail?.length / pageSize,
+    current: 1,
+    minIndex: 0,
+    maxIndex: pageSize,
+  });
+  const handleChange = (page) => {
+    setState({
+    
+      current: page,
+      minIndex: (page - 1) * pageSize,
+      maxIndex: page * pageSize,
+    });
+  };
+  const { data, current, minIndex, maxIndex, totalPage } = state;
+
+  //-------------------------------------
 
   const [update, setUpdate] = useState({
     email: userLogin.email,
@@ -286,8 +309,10 @@ export default function Profile() {
             role="tabpanel"
             aria-labelledby="v-pills-history-tab"
           >
-            {userLogin?.ordersHistory?.map((orderItem, index) => {
-              return (
+            {userLogin?.ordersHistory?.map((orderItem, index) => 
+              index >= minIndex &&
+              index < maxIndex && (
+              
                 <div className="cover mt-2" key={index}>
                   <hr />
                   <p>+ Order has been placed on {orderItem.date}</p>
@@ -303,19 +328,19 @@ export default function Profile() {
                       </tr>
                     </thead>
                     {orderItem?.orderDetail?.map((item, index) => {
-                      return (
+                      return(
                         <tbody key={index}>
                           <tr>
                             <td>{orderItem.id}</td>
                             <td>
-                              <img
+                              <img 
                                 src={item.image}
                                 alt={item.name}
                                 height={50}
                               />
                             </td>
                             <td>{item.name}</td>
-                            <td>{item.price}$</td>
+                            <td>{item.price}$</td>  
                             <td>{item.quantity}</td>
                             <td>
                               {(item.price * item.quantity).toLocaleString()}$
@@ -324,10 +349,25 @@ export default function Profile() {
                         </tbody>
                       );
                     })}
+                    
                   </table>
+                  
+                  
                 </div>
-              );
-            })}
+                
+                
+              )
+              
+            )}
+            <Pagination
+                pageSize={pageSize}
+                current={current}
+                defaultCurrent={1}
+                total={data?.length}
+                onChange={handleChange}
+                style={{ bottom: "0px", textAlign: "end", margin: "20px" }}
+              />
+            
           </div>
 
           <div
